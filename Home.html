@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- This is not really part of the instructions but it just makes things look nicer. -->
+    <title>UAF Films - Home</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        header, footer { background-color: #12279c; color: yellow; padding: 15px; }
+        header img { height: 50px; vertical-align: middle; }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .content { padding: 40px; text-align: center; }
+        p { font-size: 12pt; text-align: justify; color: blue; max-width: 800px; margin: auto; }
+        footer { text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="Pictures/logo.png" title="UAF Logo">
+    <span style="font-size: 28px; font-weight: bold;"> UAF Films</span>
+    <nav style="float: right;">
+        <a href="home.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="gallery.html">Gallery</a>
+    </nav>
+</header>
+
+	<br><br>
+	<img id="slideshow" src="Pictures/img18.jpg" alt="slideshow" width="600" height="400" 
+	style="display: block; margin: 0 auto;">
+	
+<div class="content">
+    <h1>Local Fairbanks films by UAF students</h1>
+
+    <p>
+        Description <!-- What to even put here? -->
+    </p>
+
+    <br>
+
+    <p>
+        Description 2
+    </p>
+	
+</div>
+
+<footer>
+    Contact: qtherrell@alaska.edu | +1-800-MOVIES!!!!  
+    <br>
+    &copy; UAFFILMS
+</footer>
+
+<!-- Below is the code for the changing images. Normally, I'd put a refernce to a .js file since I think it looks better, but for
+	 the life of me I could not get it to work with THIS specific thing. It was fine with the username thing!!! So why not this??? -->
+<script> 
+  document.addEventListener("DOMContentLoaded", () => {
+    let x = 0;
+    const images = [
+      "Pictures/img6.jpg",
+      "Pictures/img8.jpg",
+      "Pictures/img12.jpg",
+      "Pictures/img18.jpg"
+    ];
+
+    const imgElement = document.getElementById("slideshow");
+
+    setInterval(() => {
+      imgElement.src = images[x];
+      x++;
+
+      if (x >= images.length) {
+        x = 0;
+      }
+    }, 4000);
+  });
+</script>
+
+</body>
+</html>
