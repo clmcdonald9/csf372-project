@@ -1,0 +1,29 @@
+{
+  "name": "csf372-project",
+  "version": "1.0.0",
+  "description": "~ The project repo ~",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clmcdonald9/csf372-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/clmcdonald9/csf372-project/issues"
+  },
+  "homepage": "https://github.com/clmcdonald9/csf372-project#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
