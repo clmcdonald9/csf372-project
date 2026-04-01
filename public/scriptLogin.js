@@ -1,7 +1,7 @@
-const form = document.getElementById('loginForm');
-const usernameField = document.getElementById('username');
-const passwordField = document.getElementById('password');
-const errorMessage = document.getElementById('text_login_error_message');
+const form = document.getElementById('form_login');
+const usernameField = document.getElementById('text_username');
+const passwordField = document.getElementById('password_user_password');
+const errorMessage = document.getElementById('p_login_error_message');
 
 // Regular expression to validate username and password: 
 // 8-16 characters, at least one lowercase letter, one uppercase letter,

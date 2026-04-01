@@ -34,20 +34,26 @@
 <div class="content">
     <h2>Login</h2>
 
-    <form id="loginForm"> <!-- "Functionality" for the login (no database interaction, just checks for invalid chars). -->
+    <form id="form_login"> <!-- "Functionality" for the login (no database interaction, just checks for invalid chars). -->
         <label>
             Username:
-            <input type="text" id="username" name="username">
+            <input type="text" id="text_username" name="textUsername">
         </label>
         <br><br>
         <label>
             Password:
-            <input type="password" id="password" name="password">
+            <input type="password" id="password_user_password" name="passwordUserPassword">
         </label>
         <br><br>
         <button type="submit">Submit</button>
 		<br><br>
-        <p id="text_login_error_message" class="error" style="display:none;">Username and password must be 8-16 characters and include at least one lowercase letter, one uppercase letter, one digit, and one special character (!@#$%^&*?_.)</p>
+        <p id="p_login_error_message" class="error" style="display:none;">
+            Username and password must be 8-16 characters and include: <br>
+            - At least one lowercase letter<br>
+            - At least one uppercase letter<br>
+            - At least one digit<br>
+            - At least one special character (!@#$%^&*?_.)
+        </p>
     </form>
 </div>
 
