@@ -8,6 +8,9 @@ const errorMessage = document.getElementById('p_login_error_message');
 //  one digit, and one special character (!@#$%^&*?_.).
 const loginRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_.])[a-zA-Z0-9!@#$%^&*?_.]{8,16}$/;
 
+
+// Not sure this will be necessary for ordinary users,other than when resetting password. 
+// but eventually maybe this can be used when an admin creates a new user account?
 form.addEventListener('submit', function(event) { 
     errorMessage.style.display = 'none';
 
