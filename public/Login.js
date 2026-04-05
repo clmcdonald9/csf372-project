@@ -7,7 +7,7 @@ const passwordField = document.getElementById('password_user_password');
 
 async function sendLoginRequest(username, password) {
     try {
-        const response = await fetch('/login', {
+        const response = await fetch('/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
