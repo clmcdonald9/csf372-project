@@ -1,9 +1,6 @@
-//server.js
-
 const { MongoClient } = require('mongodb');
 const path = require('path');
 const express = require('express');
-const { start } = require('repl');
 const app = express();
 
 const url = "mongodb://localhost:27017";
@@ -31,7 +28,7 @@ app.post('/login', async (req, res) => {
 
         res.json({ success: true, message: 'Login successful', user: { username: user.username, fullName: user.fullName, role: user.role } });
     } catch (error) {
-        console.error('Error during login:', error);
+        console.log('Error during login:', error);
         res.status(500).json({ success: false, message: 'An error occurred during login' });
     }
 });

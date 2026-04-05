@@ -46,7 +46,8 @@ function handleLogin() {
                 alert(data.message);
             }
         } catch (error) {
-            alert('An error occurred during login. Please try again later.');
+            console.log(error)
+            alert(error);
         }
     
         
