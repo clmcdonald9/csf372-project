@@ -7,7 +7,7 @@ const { connectToDB } = require('./db')
 const PORT = 3000;
 const PUBLIC_DIRECTORY_PATH = path.join(__dirname, 'public');
 
-app.use(express.static(publicDirPath));
+app.use(express.static(PUBLIC_DIRECTORY_PATH));
 app.use(express.json());
 
 const authRouter = require('./routes/auth')

@@ -1,9 +1,6 @@
-//login.js
-
-const form = document.getElementById('form_login');
-const usernameField = document.getElementById('text_username');
-const passwordField = document.getElementById('password_user_password');
-//const errorMessage = document.getElementById('p_login_error_message');
+const FORM = document.getElementById('form_login');
+const USERNAME_FIELD = document.getElementById('text_username');
+const PASSWORD_FIELD = document.getElementById('password_user_password');
 
 async function sendLoginRequest(username, password) {
     try {
@@ -29,11 +26,11 @@ async function sendLoginRequest(username, password) {
 }
 
 function handleLogin() {
-    form.addEventListener('submit', async function(event) {
+    FORM.addEventListener('submit', async function(event) {
         event.preventDefault();
 
-        const username = usernameField.value;
-        const password = passwordField.value;
+        const username = USERNAME_FIELD.value;
+        const password = PASSWORD_FIELD.value;
 
         try {
             const data = await sendLoginRequest(username, password);
@@ -54,6 +51,6 @@ function handleLogin() {
     });
 }
 
-if (form && usernameField && passwordField) {
+if (FORM && USERNAME_FIELD && PASSWORD_FIELD) {
     handleLogin();
 }
