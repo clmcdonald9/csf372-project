@@ -7,13 +7,33 @@ const users = [
     username: "admin1",
     password: "password123",
     fullName: "Admin User",
-    role: "admin"
+    role: "admin",
+    recoveryQuestions: [
+      {
+        question: "what is 2 + 2?",
+        answer: "4"
+      },
+      {
+        question: "what is the square root of 16",
+        answer: "4"
+      }
+    ]
   },
   {
     username: "viewer1",
     password: "password123",
     fullName: "Viewer One",
-    role: "viewer"
+    role: "viewer",
+    recoveryQuestions: [
+      {
+        question: "what is 2 + 2?",
+        answer: "4"
+      },
+      {
+        question: "what is the square root of 16",
+        answer: "4"
+      }
+    ]
   }
 ];
 
