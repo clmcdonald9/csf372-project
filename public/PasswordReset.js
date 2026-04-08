@@ -61,20 +61,44 @@ function handleUsernameSubmission() {
     });
 
 }
-function validateSecurityAnswers() {
-    // this function will validate the security answers against the answers stored in the database for the given username.
+
+async function updatePassword() {
+    try {
+        if (!PASSWORD_REGEX.test(NEW_PASSWORD_FIELD.value)) {
+            throw new Error('Password does not meet the required criteria');
+        }
+
+        const response = await fetch('/auth/update-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: USERNAME_FIELD.value,
+                answer1: SECURITY_ANSWER_1.value,
+                answer2: SECURITY_ANSWER_2.value,
+                newPassword: NEW_PASSWORD_FIELD.value
+            })
+
+        });
+    } catch (error) {
+        console.error('Error updating password:', error);
+        alert(error.message);
+    }
 }
 
-function validateNewPassword() {
-    // this function will validate new password against the PASSWORD_REGEX
-}
+function handleNewPasswordSubmission() {
+    NEW_PASSWORD_FORM.addEventListener('submit', function(event) {
+        event.preventDefault();
 
+        updatePassword();
+    });
+}
 
 if (USERNAME_FORM && USERNAME_FIELD) {
     handleUsernameSubmission();
 }
 
-// if (NEW_PASSWORD_FORM && SECURITY_ANSWER_1 && SECURITY_ANSWER_2 && NEW_PASSWORD_FIELD) {
-    // validateSecurityAnswers();
-    // validateNewPassword();
-// }
+if (NEW_PASSWORD_FORM && SECURITY_ANSWER_1 && SECURITY_ANSWER_2 && NEW_PASSWORD_FIELD) {
+    handleNewPasswordSubmission();
+}
