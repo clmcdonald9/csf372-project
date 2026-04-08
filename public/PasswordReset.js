@@ -74,7 +74,7 @@ if (USERNAME_FORM && USERNAME_FIELD) {
     handleUsernameSubmission();
 }
 
-if (NEW_PASSWORD_FORM && SECURITY_ANSWER_1 && SECURITY_ANSWER_2 && NEW_PASSWORD_FIELD) {
+// if (NEW_PASSWORD_FORM && SECURITY_ANSWER_1 && SECURITY_ANSWER_2 && NEW_PASSWORD_FIELD) {
     // validateSecurityAnswers();
     // validateNewPassword();
-}
+// }
