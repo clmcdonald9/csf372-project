@@ -3,11 +3,11 @@ const NEW_PASSWORD_FORM = document.getElementById('form_new_password');
 
 const USERNAME_FIELD = document.getElementById('text_username');
 
-const SECURITY_QUESTION_1 = document.getElementById('text_security_question_1');
-const SECURITY_QUESTION_2 = document.getElementById('text_security_question_2');
+const SECURITY_QUESTION_1 = document.getElementById('label_security_question_1');
+const SECURITY_QUESTION_2 = document.getElementById('label_security_question_2');
 
-const SECURITY_ANSWER_1 = document.getElementById('text_security_answer_1');
-const SECURITY_ANSWER_2 = document.getElementById('text_security_answer_2');
+const SECURITY_ANSWER_1 = document.getElementById('text_answer_1');
+const SECURITY_ANSWER_2 = document.getElementById('text_answer_2');
 
 const NEW_PASSWORD_FIELD = document.getElementById('password_new_password');
 const PASSWORD_HINTS = document.getElementById('p_password_hints');
@@ -52,7 +52,7 @@ async function securityQuestionsRequest(username) {
 }
 
 function handleUsernameSubmission() {
-    FORM.addEventListener('submit', function(event) {
+    USERNAME_FORM.addEventListener('submit', function(event) {
         event.preventDefault();
         
         const username = USERNAME_FIELD.value;
@@ -75,6 +75,6 @@ if (USERNAME_FORM && USERNAME_FIELD) {
 }
 
 if (NEW_PASSWORD_FORM && SECURITY_ANSWER_1 && SECURITY_ANSWER_2 && NEW_PASSWORD_FIELD) {
-    validateSecurityAnswers();
-    validateNewPassword();
+    // validateSecurityAnswers();
+    // validateNewPassword();
 }
