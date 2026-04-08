@@ -34,6 +34,10 @@ async function securityQuestionsRequest(username) {
             throw new Error(data.message || 'Failed to retrieve security questions');
         }
 
+        if (!data.questions || data.questions.length < 2) {
+            throw new Error('Not enough security questions found for this user');
+        }
+
         SECURITY_QUESTION_1.textContent = data.questions[0].question;
         SECURITY_QUESTION_2.textContent = data.questions[1].question;
 
@@ -41,7 +45,7 @@ async function securityQuestionsRequest(username) {
 
     } catch (error) {
         console.error('Error retrieving security questions:', error);
-        alert(error);
+        alert(error.message);
     }
 
 
