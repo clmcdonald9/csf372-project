@@ -1,15 +1,29 @@
+
 const path = require('path');
 const express = require('express');
 const app = express();
+const { connectToDB } = require('./db')
 
-const publicDirPath = path.join(__dirname, 'public');
+const PORT = 3000;
+const PUBLIC_DIRECTORY_PATH = path.join(__dirname, 'public');
 
-app.use(express.static(publicDirPath));
+app.use(express.static(PUBLIC_DIRECTORY_PATH));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(publicDirPath, "Home.html"));
-});
+const authRouter = require('./routes/auth')
+app.use('/auth', authRouter )
 
-app.listen(3000, "0.0.0.0", () => {
-    console.log('Server is up on port 3000');
-});
+async function startServer() {
+
+    await connectToDB();
+
+    app.get("/", (req, res) => {
+        res.sendFile(path.join(PUBLIC_DIRECTORY_PATH, "Login.html"));
+    });
+
+    app.listen(PORT, "0.0.0.0", () => {
+        console.log('Server is up on port 3000');
+    });
+}
+
+startServer();
