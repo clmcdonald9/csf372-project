@@ -8,6 +8,7 @@ const users = [
     password: "password123",
     fullName: "Admin User",
     role: "admin",
+    firstLogin: true,
     recoveryQuestions: [
       {
         question: "what is 2 + 2?",
@@ -24,6 +25,7 @@ const users = [
     password: "password123",
     fullName: "Viewer One",
     role: "viewer",
+    firstLogin: true,
     recoveryQuestions: [
       {
         question: "what is 2 + 2?",
