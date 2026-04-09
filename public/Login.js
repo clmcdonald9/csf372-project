@@ -36,15 +36,13 @@ function handleLogin() {
             const data = await sendLoginRequest(username, password);
             
             if (data.success) {
-                // redirect to homePage
-                // currently just alerting the user
-                alert(data.message);
+                window.location.href = '/home.html';
             } else {
                 alert(data.message);
             }
         } catch (error) {
             console.log(error)
-            alert(error);
+            alert(error.message);
         }
     
         
