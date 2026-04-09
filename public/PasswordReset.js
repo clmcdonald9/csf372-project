@@ -43,6 +43,7 @@ async function securityQuestionsRequest(username) {
 
         NEW_PASSWORD_FORM.style.display = 'block';
 
+
     } catch (error) {
         console.error('Error retrieving security questions:', error);
         alert(error.message);
@@ -52,12 +53,12 @@ async function securityQuestionsRequest(username) {
 }
 
 function handleUsernameSubmission() {
-    USERNAME_FORM.addEventListener('submit', function(event) {
+    USERNAME_FORM.addEventListener('submit', async function(event) {
         event.preventDefault();
-        
+
         const username = USERNAME_FIELD.value;
 
-        securityQuestionsRequest(username);
+        await securityQuestionsRequest(username);
     });
 
 }
@@ -79,19 +80,38 @@ async function updatePassword() {
                 answer2: SECURITY_ANSWER_2.value,
                 newPassword: NEW_PASSWORD_FIELD.value
             })
-
         });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to update password');
+        }
+        
+        return data;
+
     } catch (error) {
         console.error('Error updating password:', error);
-        alert(error.message);
+        throw error;
     }
 }
 
 function handleNewPasswordSubmission() {
-    NEW_PASSWORD_FORM.addEventListener('submit', function(event) {
+    NEW_PASSWORD_FORM.addEventListener('submit', async function(event) {
         event.preventDefault();
+        try {
+            const data = await updatePassword();
 
-        updatePassword();
+            if (data.success) {
+                alert(data.message);
+                // Optionally, redirect the user to the login page after successful password reset
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.log(error)
+            alert(error);
+        }
     });
 }
 
