@@ -18,13 +18,21 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ success: false, message: 'Invalid username or password' });
         }
 
-        req.session.user = { username: user.username, fullName: user.fullName, role: user.role };
+        req.session.user = { id: user._id, username: user.username, fullName: user.fullName, role: user.role, firstLogin: user.firstLogin };
 
         res.json({ success: true, message: 'Login successful', user: { username: user.username, fullName: user.fullName, role: user.role } });
         
     } catch (error) {
         console.log('Error during login:', error);
         res.status(500).json({ success: false, message: 'An error occurred during login' });
+    }
+});
+
+router.post('/user', (req, res) => {
+    if (req.session.user) {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
     }
 });
 
