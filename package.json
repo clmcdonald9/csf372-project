@@ -21,6 +21,7 @@
   "homepage": "https://github.com/clmcdonald9/csf372-project#readme",
   "dependencies": {
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "mongodb": "^7.1.1"
   },
   "devDependencies": {
