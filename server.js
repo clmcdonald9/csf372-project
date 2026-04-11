@@ -10,6 +10,8 @@ const PUBLIC_DIRECTORY_PATH = path.join(__dirname, 'public');
 app.use(express.static(PUBLIC_DIRECTORY_PATH));
 app.use(express.json());
 
+app.use('/Videos', express.static(path.join(__dirname, 'Videos')));
+
 const authRouter = require('./routes/auth')
 app.use('/auth', authRouter )
 
