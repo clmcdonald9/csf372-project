@@ -2,7 +2,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const { connectToDB } = require('./db')
+const { connectToDB, getDB } = require('./db')
 
 const PORT = 3000;
 const PUBLIC_DIRECTORY_PATH = path.join(__dirname, 'public');
@@ -16,8 +16,26 @@ const authRouter = require('./routes/auth')
 app.use('/auth', authRouter )
 
 async function startServer() {
-
     await connectToDB();
+    // API route for the Video Player.
+    app.get('/api/movies/:title', async (req, res) => {
+        try {
+            const movieTitle = req.params.title;
+            const db = getDB();
+
+            const movieData = await db.collection("movies").findOne({ title: movieTitle });
+
+            if (!movieData) {
+                res.status(404).json({ success: false, message: "Movie not found" });
+                return;
+            }
+
+            res.status(200).json({ success: true, movie: movieData });
+        } catch (error) {
+            console.error("Error fetching movie:", error);
+            res.status(500).json({ success: false, message: "Server error" });
+        }
+    });
 
     app.get("/", (req, res) => {
         res.sendFile(path.join(PUBLIC_DIRECTORY_PATH, "Login.html"));
