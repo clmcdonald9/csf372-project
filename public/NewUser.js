@@ -29,8 +29,8 @@ async function updateAccountData(username) {
             },
             body: JSON.stringify({
                 username,
-                question1: SECURITY_QUESTION_1.textContent,
-                question2: SECURITY_QUESTION_2.textContent,
+                question1: SECURITY_QUESTION_1.value,
+                question2: SECURITY_QUESTION_2.value,
                 answer1: SECURITY_ANSWER_1.value,
                 answer2: SECURITY_ANSWER_2.value,
                 newPassword: NEW_PASSWORD_FIELD.value
