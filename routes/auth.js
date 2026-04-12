@@ -10,21 +10,42 @@ router.post('/login', async (req, res) => {
     const db = getDB();
 
     try {
-        const user = await db.collection('users').findOne({ username, password });
+        const user = await db.collection('users').findOne({ 
+            username, 
+            password 
+        });
 
         console.log("Login attempt:", { username, password });
 
         if (!user) {
-            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Invalid username or password' 
+            });
         }
 
-        req.session.user = { id: user._id, username: user.username, fullName: user.fullName, role: user.role, firstLogin: user.firstLogin };
+        req.session.user = { 
+            id: user._id, 
+            username: user.username, 
+            fullName: user.fullName, 
+            role: user.role };
 
-        res.json({ success: true, message: 'Login successful', user: { username: user.username, fullName: user.fullName, role: user.role } });
+        res.json({ 
+            success: true, 
+            message: 'Login successful', 
+            user: { 
+                username: user.username, 
+                fullName: user.fullName, role: user.role, 
+                firstLogin: user.firstLogin 
+            } 
+        });
         
     } catch (error) {
         console.log('Error during login:', error);
-        res.status(500).json({ success: false, message: 'An error occurred during login' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'An error occurred during login' 
+        });
     }
 });
 
@@ -45,16 +66,23 @@ router.post('/security-questions', async (req, res) => {
         const user = await db.collection('users').findOne({ username });
         
         if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' });
         }
         
-        const questions = user.recoveryQuestions.map(q => ({ question: q.question }));
+        const questions = user.recoveryQuestions.map(q => ({ 
+            question: q.question 
+        }));
 
         res.json({ success: true, questions });
 
     } catch (error) {
         console.log('Error retrieving security questions:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while retrieving security questions' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'An error occurred while retrieving security questions' 
+        });
     }
 });
 
@@ -66,35 +94,59 @@ router.post('/update-password', async (req, res) => {
         const user = await db.collection('users').findOne({ username });
 
         if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
         }
 
         const correctAnswer1 = user.recoveryQuestions[0].answer;
         const correctAnswer2 = user.recoveryQuestions[1].answer;
 
         if (answer1 !== correctAnswer1 || answer2 !== correctAnswer2) {
-            return res.status(401).json({ success: false, message: 'Incorrect security question answers' });
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Incorrect security question answers' 
+            });
         }
 
-        await db.collection('users').updateOne({ username }, { $set: { password: newPassword } });
+        await db.collection('users').updateOne(
+            { username }, 
+            { $set: { password: newPassword } }
+        );
 
         res.json({ success: true, message: 'Password updated successfully' });
 
     } catch (error) {
         console.log('Error updating password:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while updating the password' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'An error occurred while updating the password' 
+        });
     }
 });
 
 router.post('/update-user-account', async (req, res) => {
-    const { username, question1, question2, answer1, answer2, newPassword } = req.body;
+    const { 
+        username, 
+        question1, 
+        question2, 
+        answer1, 
+        answer2, 
+        newPassword 
+    } = req.body;
+
+
     const db = getDB();
 
     try {
         const user = await db.collection('users').findOne({ username });
 
         if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
         }
 
         await db.collection('users').updateOne(
@@ -109,11 +161,16 @@ router.post('/update-user-account', async (req, res) => {
             } 
         });
 
-        res.json({ success: true, message: 'User account updated successfully' });
+        res.json({ 
+            success: true, 
+            message: 'User account updated successfully' });
 
     } catch (error) {
         console.log('Error updating user account:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while updating the user account' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'An error occurred while updating the user account' 
+        });
     }
 });
 

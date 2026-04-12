@@ -19,6 +19,7 @@ async function sendLoginRequest(username, password) {
         }
 
         return data;
+
     } catch (error) {
         console.error('Error during login:', error);
         throw error;
@@ -35,10 +36,13 @@ function handleLogin() {
         try {
             const data = await sendLoginRequest(username, password);
             
-            if (data.success) {
-                window.location.href = '/home.html';
+            if (!data.success) {
+                throw new Error(data.message || 'Login failed');
+            }
+            if (data.user.firstLogin) {
+                window.location.href = 'NewUser.html';
             } else {
-                alert(data.message);
+                window.location.href = 'Home.html';
             }
         } catch (error) {
             console.log(error)
