@@ -85,4 +85,36 @@ router.post('/update-password', async (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred while updating the password' });
     }
 });
+
+router.post('/update-user-account', async (req, res) => {
+    const { username, question1, question2, answer1, answer2, newPassword } = req.body;
+    const db = getDB();
+
+    try {
+        const user = await db.collection('users').findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        await db.collection('users').updateOne(
+            { username },
+            { $set: { 
+                password: newPassword,
+                recoveryQuestions: [
+                    { question: question1, answer: answer1 },
+                    { question: question2, answer: answer2 }
+                ],
+                firstLogin: false
+            } 
+        });
+
+        res.json({ success: true, message: 'User account updated successfully' });
+
+    } catch (error) {
+        console.log('Error updating user account:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while updating the user account' });
+    }
+});
+
 module.exports = router
