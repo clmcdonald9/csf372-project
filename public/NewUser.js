@@ -1,12 +1,21 @@
-const ACCOUNT_SETUP_FORM = document.getElementById('account-setup-form');
+const ACCOUNT_SETUP_FORM = document.getElementById('form_account_setup');
 
-const SECURITY_QUESTION_1 = document.getElementById('label_security_question_1');
-const SECURITY_QUESTION_2 = document.getElementById('label_security_question_2');
+const SECURITY_QUESTION_1 = document.getElementById('text_question_1');
+const SECURITY_QUESTION_2 = document.getElementById('text_question_2');
 
 const SECURITY_ANSWER_1 = document.getElementById('text_answer_1');
 const SECURITY_ANSWER_2 = document.getElementById('text_answer_2');
 
 const NEW_PASSWORD_FIELD = document.getElementById('password_new_password');
+
+const REQUIRED_FIELDS = [
+    ACCOUNT_SETUP_FORM && 
+    SECURITY_QUESTION_1 && 
+    SECURITY_QUESTION_2 && 
+    SECURITY_ANSWER_1 && 
+    SECURITY_ANSWER_2 && 
+    NEW_PASSWORD_FIELD
+];
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_.])[a-zA-Z0-9!@#$%^&*?_.]{8,16}$/;
 
@@ -34,6 +43,7 @@ async function updateAccountData(username) {
 
     } catch (error) {
         console.error('Error updating user account:', error);
+        alert(error.message);
     }
 }
 
@@ -67,6 +77,7 @@ function newAccountSetup() {
 
         try {
             if (!PASSWORD_REGEX.test(NEW_PASSWORD_FIELD.value)) {
+                alert('Password does not meet the required criteria');
                 throw new Error('Password does not meet the required criteria');
             }
 
@@ -82,6 +93,6 @@ function newAccountSetup() {
     });
 }
 
-if (ACCOUNT_SETUP_FORM && SECURITY_QUESTION_1 && SECURITY_QUESTION_2 && SECURITY_ANSWER_1 && SECURITY_ANSWER_2 && NEW_PASSWORD_FIELD) {
+if (REQUIRED_FIELDS.every(field => field)) {
     newAccountSetup();
 }
