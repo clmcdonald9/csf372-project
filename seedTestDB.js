@@ -45,14 +45,18 @@ const movies = [
     genre: "Adventure",
     releaseDate: 2024,
     views: 0,
-    likes: 0
+    likes: 0,
+    dislikes: 0,
+    videoPath: "Videos/movie1.mp4"
   },
   {
     title: "movie2",
     genre: "Sci-Fi",
     releaseDate: 2023,
     views: 0,
-    likes: 0
+    likes: 0,
+    dislikes: 0,
+    videoPath: "Videos/movie2.mp4"
   }
 ];
 
