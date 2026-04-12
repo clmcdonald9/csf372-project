@@ -1,6 +1,8 @@
 const express = require('express');
+const { sha256} = require('js-sha256');
+const { getDB } = require ('../db');
 const router = express.Router();
-const { getDB } = require ('../db')
+
 
 
 console.log("auth router loaded")
@@ -9,10 +11,12 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const db = getDB();
 
+    const hashedPassword = sha256(password);
+
     try {
         const user = await db.collection('users').findOne({ 
-            username, 
-            password 
+            username: username, 
+            password: hashedPassword 
         });
 
         console.log("Login attempt:", { username, password });
@@ -28,7 +32,8 @@ router.post('/login', async (req, res) => {
             id: user._id, 
             username: user.username, 
             fullName: user.fullName, 
-            role: user.role };
+            role: user.role 
+        };
 
         res.json({ 
             success: true, 
@@ -63,7 +68,7 @@ router.post('/security-questions', async (req, res) => {
     const db = getDB();
 
     try {
-        const user = await db.collection('users').findOne({ username });
+        const user = await db.collection('users').findOne({ username: username });
         
         if (!user) {
             return res.status(404).json({ 
@@ -90,8 +95,12 @@ router.post('/update-password', async (req, res) => {
     const { username, answer1, answer2, newPassword } = req.body;
     const db = getDB();
 
+    const hashedNewPassword = sha256(newPassword);
+    const hashedAnswer1 = sha256(answer1);
+    const hashedAnswer2 = sha256(answer2);
+
     try {
-        const user = await db.collection('users').findOne({ username });
+        const user = await db.collection('users').findOne({ username: username });
 
         if (!user) {
             return res.status(404).json({ 
@@ -103,7 +112,7 @@ router.post('/update-password', async (req, res) => {
         const correctAnswer1 = user.recoveryQuestions[0].answer;
         const correctAnswer2 = user.recoveryQuestions[1].answer;
 
-        if (answer1 !== correctAnswer1 || answer2 !== correctAnswer2) {
+        if (hashedAnswer1 !== correctAnswer1 || hashedAnswer2 !== correctAnswer2) {
             return res.status(401).json({ 
                 success: false, 
                 message: 'Incorrect security question answers' 
@@ -112,7 +121,7 @@ router.post('/update-password', async (req, res) => {
 
         await db.collection('users').updateOne(
             { username }, 
-            { $set: { password: newPassword } }
+            { $set: { password: hashedNewPassword } }
         );
 
         res.json({ success: true, message: 'Password updated successfully' });
@@ -136,11 +145,14 @@ router.post('/update-user-account', async (req, res) => {
         newPassword 
     } = req.body;
 
-
     const db = getDB();
 
+    const hashedNewPassword = sha256(newPassword);
+    const hashedAnswer1 = sha256(answer1);
+    const hashedAnswer2 = sha256(answer2);
+
     try {
-        const user = await db.collection('users').findOne({ username });
+        const user = await db.collection('users').findOne({ username: username });
 
         if (!user) {
             return res.status(404).json({ 
@@ -152,10 +164,10 @@ router.post('/update-user-account', async (req, res) => {
         await db.collection('users').updateOne(
             { username },
             { $set: { 
-                password: newPassword,
+                password: hashedNewPassword,
                 recoveryQuestions: [
-                    { question: question1, answer: answer1 },
-                    { question: question2, answer: answer2 }
+                    { question: question1, answer: hashedAnswer1 },
+                    { question: question2, answer: hashedAnswer2 }
                 ],
                 firstLogin: false
             } 

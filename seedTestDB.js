@@ -5,7 +5,7 @@ const DBName = "SCProject"
 const users = [
   {
     username: "admin1",
-    password: "password123",
+    password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', // "Password123!"
     fullName: "Admin User",
     role: "admin",
     firstLogin: true,
@@ -22,7 +22,7 @@ const users = [
   },
   {
     username: "viewer1",
-    password: "password123",
+    password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
     fullName: "Viewer One",
     role: "viewer",
     firstLogin: true,
