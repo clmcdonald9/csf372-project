@@ -27,31 +27,26 @@
 </header>
 
 <div class="content">
-    <h2>Password Reset</h2>
+    <h2>Secure your new account</h2>
 
-    <form id="form_username"> 
-        <label>
-            Username:
-            <input type="text" id="text_username" name="textUsername">
-        </label>
-        <button type="submit">Next</button>
-		<br><br>
+    <form id = "form_account_setup"> 
+        <label> Security Question 1 </label>
+        <input type="text" id="text_question_1" name="textQuestion1">
+        <br><br>
+        <label> Answer for Security Question 1 </label>
+        <input type="text" id="text_answer_1" name="textAnswer1">
+
+        <br><br><br>
         
-    </form>
+        <label> Security Question 2 </label>
+        <input type="text" id="text_question_2" name="textQuestion2">
+        <br><br>
+        <label> Answer for Security Question 2 </label>
+        <input type="text" id="text_answer_2" name="textAnswer2">
 
-    <form id = "form_new_password" style="display:none;"> <!-- This form is hidden until the user submits their username. -->
-        <br><br>
-        <label id="label_security_question_1">
-            question 1
-        </label>
-            <input type="text" id="text_answer_1" name="textAnswer1">
-        <br><br>
-        <label id="label_security_question_2">
-            question 2
-        </label>
-            <input type="text" id="text_answer_2" name="textAnswer2">
         <br><br>
         <br><br>
+
         <label>
             New Password:
         </label>
@@ -65,9 +60,8 @@
             - At least one special character (!@#$%^&*?_.)
         </p>
         <br><br>
-        <button type="submit">Update Password</button>
+        <button type="submit">Update</button>
     </form>
-    <a href="Login.html">Back to Login</a>
 </div>
 
 <footer> 
@@ -77,7 +71,7 @@
 </footer>
 
 <!-- Link to the js file. -->
-<script src="PasswordReset.js"></script>
+<script src="NewUser.js"></script>
 
 </body>
 </html>
