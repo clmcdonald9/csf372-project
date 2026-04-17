@@ -25,21 +25,21 @@ const FAST_FORWARD_BUTTON = document.getElementById('fast_forward_button');
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
 const BUTTON_SUBMIT_COMMENT = document.getElementById('button_submit_comment');
 
-// Function to get the movie title from the URL parameters.
-function getMovieTitleUrl() {
+// Function to get the movie ID from the URL parameters.
+function getMovieIDUrl() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('title');
+    return urlParams.get('videoID');
 }
 
 async function loadMovie() {
-    const movieTitle = getMovieTitleUrl();
-    if (!movieTitle) {
-        alert('No movie title provided in the URL.');
+    const movieID = getMovieIDUrl();
+    if (!movieID) {
+        alert('No movie ID provided in the URL.');
         return;
     }
 
     try {
-        const response = await fetch(`/api/movies/` + movieTitle);
+        const response = await fetch(`/api/movies/${movieID}`);
         const data = await response.json();
 
         if (!response.ok) {
@@ -56,6 +56,7 @@ async function loadMovie() {
         // Update the video player with the movie data.
         HEADING_TITLE.textContent = movie.title;
         PARAGRAPH.textContent = movie.description;
+        
         VIDEO_SOURCE.src = movie.videoPath;
         VIDEO_PLAYER.load();
 
