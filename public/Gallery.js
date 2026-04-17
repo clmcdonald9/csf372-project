@@ -44,3 +44,5 @@ async function displayMovies() {
         GALLERY_GRID.appendChild(gallery_item);
     }
 }
+
+displayMovies();
