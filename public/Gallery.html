@@ -12,8 +12,30 @@
             margin: 0 15px;
             font-weight: bold;
         }
-        .content { padding: 40px; text-align: center; }
-        p { font-size: 12pt; text-align: justify; max-width: 800px; margin: auto; }
+		.gallery_grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin: 20px auto;
+        }
+		.gallery_item {
+			text-align: center;
+		}
+        .thumbnail {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .content { 
+			padding: 40px; 
+			text-align: center; 
+		}
+        p { 
+			font-size: 12pt; 
+			text-align: justify; 
+			max-width: 800px; 
+			margin: auto; 
+		}
         footer { text-align: center; }
 		 .thumbnail { /* This is a test to try and get all of my images to be a more regular size. */
         width: 200px;
