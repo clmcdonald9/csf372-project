@@ -47,7 +47,6 @@ const movies = [
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoPath: "https://www.youtube.com/watch?v=bxIV_itPWkU",
     videoID: "bxIV_itPWkU"
   },
   {
@@ -57,7 +56,6 @@ const movies = [
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoPath: "https://www.youtube.com/watch?v=LWzUt5uoDV0",
     videoID: "LWzUt5uoDV0"
   }
 ];

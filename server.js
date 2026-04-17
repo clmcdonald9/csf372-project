@@ -27,6 +27,9 @@ app.use('/Videos', express.static(path.join(__dirname, 'Videos')));
 const authRouter = require('./routes/auth')
 app.use('/auth', authRouter )
 
+const moviesRouter = require('./routes/movies');
+app.use('/movies', moviesRouter);
+
 async function startServer() {
     await connectToDB();
     // API route for the Video Player.

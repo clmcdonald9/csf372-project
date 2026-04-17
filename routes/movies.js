@@ -2,7 +2,7 @@ const express = require('express');
 const { getDB } = require ('../db');
 const router = express.Router();
 
-router.get('/movies', async (req, res) => {
+router.get('/all-movies', async (req, res) => {
     const db = getDB();
 
     try {

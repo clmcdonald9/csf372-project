@@ -2,13 +2,13 @@ const GALLERY_GRID = document.getElementById("div_gallery_grid");
 
 async function fetchMovies() {
     try {
-        const response = await fetch('/movies');
-        const movies = await response.json();
+        const response = await fetch('/movies/all-movies');
 
         if (!response.ok) {
             throw new Error('Failed to fetch movies');
         }
         
+        const movies = await response.json();
         return movies;
 
     } catch (error) {
