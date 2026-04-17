@@ -41,22 +41,24 @@ const users = [
 
 const movies = [
   {
-    title: "movie1",
-    genre: "Adventure",
+    title: "The Greatest Mysteries of the Pacific Ocean",
+    genre: "documentary",
     releaseDate: 2024,
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoPath: "Videos/movie1.mp4"
+    videoPath: "https://www.youtube.com/watch?v=bxIV_itPWkU",
+    videoID: "bxIV_itPWkU"
   },
   {
-    title: "movie2",
-    genre: "Sci-Fi",
+    title: "a plant documentary",
+    genre: "documentary",
     releaseDate: 2023,
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoPath: "Videos/movie2.mp4"
+    videoPath: "https://www.youtube.com/watch?v=LWzUt5uoDV0",
+    videoID: "LWzUt5uoDV0"
   }
 ];
 
