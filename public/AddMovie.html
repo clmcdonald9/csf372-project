@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- This is not really part of the instructions but it just makes things look nicer. -->
+    <title>UAF Films - Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        header, footer { background-color: #12279c; color: yellow; padding: 15px; }
+        header img { height: 50px; vertical-align: middle; }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .content { padding: 40px; text-align: center; }
+        p { font-size: 12pt; text-align: justify; color: blue; max-width: 800px; margin: auto; }
+        footer { text-align: center; }
+        .error { color: red; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="Pictures/logo.png" title="UAF Logo"> <!-- This will fail because I did not upload the pictures it references to the github. -->
+    <span style="font-size: 28px; font-weight: bold;"> UAF Films</span>
+
+</header>
+
+<div class="content">
+    <h2>Add Movie</h2>
+
+    <form id="form_add_movie"> 
+        <label>
+            Movie Title:
+            <input type="text" id="text_movie_title" name="textMovieTitle">
+        </label>
+        
+        <br><br>
+
+        <label>
+            Youtube Link:
+            <input type="text" id="text_youtube_link" name="textYoutubeLink">
+        </label>
+
+        <br><br>
+        <br><br>
+
+        <label>
+            Movie Description:
+            <br>
+            <textarea id="textarea_movie_description" name="textareaMovieDescription" rows="4" cols="50"></textarea>
+        </label>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<footer> <!-- Ok the one problem that the page has (besides the login needing to function or whatever) is that the footer
+			  does not stick to the bottom of the screen/window. Just FYI. -->
+    Contact: qtherrell@alaska.edu | +1-800-MOVIES!!!!  <!-- Obviously won't be my email in the future, we can just make one up. -->
+    <br> 											   <!-- Unless it has to be one of ours?? -->
+    &copy; UAFFILMS
+</footer>
+
+<!-- Link to the js file. -->
+<script src="Login.js"></script>
+
+</body>
+</html>
