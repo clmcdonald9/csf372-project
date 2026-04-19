@@ -34,9 +34,11 @@ async function displayMovies() {
         const thumbnail = document.createElement('img');
         thumbnail.src = `https://img.youtube.com/vi/${movie.videoID}/0.jpg`;
         thumbnail.alt = movie.title;
+        thumbnail.classList.add('thumbnail');
 
         const title = document.createElement('p');
         title.textContent = movie.title;
+        title.classList.add('movie_title')
 
         movie_link.appendChild(thumbnail);
         gallery_item.appendChild(movie_link);
