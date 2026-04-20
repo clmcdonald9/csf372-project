@@ -42,8 +42,7 @@ const users = [
 const movies = [
   {
     title: "The Greatest Mysteries of the Pacific Ocean",
-    genre: "documentary",
-    releaseDate: 2024,
+    genre: "educational",
     views: 0,
     likes: 0,
     dislikes: 0,
@@ -51,8 +50,7 @@ const movies = [
   },
   {
     title: "a plant documentary",
-    genre: "documentary",
-    releaseDate: 2023,
+    genre: "educational",
     views: 0,
     likes: 0,
     dislikes: 0,
