@@ -108,7 +108,9 @@ function renderComments(comments) {
     COMMENTS.innerHTML = '';
 
     if (comments.length === 0) {
-        COMMENTS.innerHTML = '<p><em>No comments yet.</em></p>';
+        const emptyMessage = document.createElement('p');
+        emptyMessage.textContent = 'No comments yet.';
+        COMMENTS.appendChild(emptyMessage);
         return;
     }
 
