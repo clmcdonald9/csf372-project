@@ -4,8 +4,41 @@ const GENRE_INPUT = document.getElementById("text_genre");
 const YOUTUBE_LINK_INPUT = document.getElementById("text_youtube_link");
 const DESCRIPTION_INPUT = document.getElementById("textarea_movie_description");
 
-if (!FORM || !TITLE_INPUT || !YOUTUBE_LINK_INPUT || !DESCRIPTION_INPUT) {
-    console.error("One or more form elements not found. Please check the HTML.");
+async function fetchUserInfo() {
+    try {
+        const response = await fetch('/auth/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user info');
+        }
+        
+        const userInfo = await response.json();
+        return userInfo;
+
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        return null;
+    }
+}
+
+async function checkUserRole() {
+    const userInfo = await fetchUserInfo();
+
+    console.log("User info:", userInfo);
+
+    if (!userInfo || !userInfo.loggedIn) {
+        window.location.href = 'Login.html';
+        return;
+    }
+
+    if (userInfo && (userInfo.user.role !== 'admin' && userInfo.user.role !== 'content editor')) {
+        window.location.href = 'Gallery.html';
+    }
 }
 
 function extractVideoID(url) {
@@ -39,6 +72,7 @@ async function submitMovie(movieData) {
     }
 }
 
+checkUserRole();
 
 if (FORM) {
     FORM.addEventListener("submit", async (event) => {
@@ -68,6 +102,6 @@ if (FORM) {
         };
 
         await submitMovie(movieData);
-        
+
     });
 }
