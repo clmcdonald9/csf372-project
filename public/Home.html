@@ -56,28 +56,7 @@
 
 <!-- Below is the code for the changing images. Normally, I'd put a refernce to a .js file since I think it looks better, but for
 	 the life of me I could not get it to work with THIS specific thing. It was fine with the username thing!!! So why not this??? -->
-<script> 
-  document.addEventListener("DOMContentLoaded", () => {
-    let x = 0;
-    const images = [
-      "Pictures/img6.jpg",
-      "Pictures/img8.jpg",
-      "Pictures/img12.jpg",
-      "Pictures/img18.jpg"
-    ];
-
-    const imgElement = document.getElementById("slideshow");
-
-    setInterval(() => {
-      imgElement.src = images[x];
-      x++;
-
-      if (x >= images.length) {
-        x = 0;
-      }
-    }, 4000);
-  });
-</script>
+<script src="Home.js"></script>
 
 </body>
 </html>
