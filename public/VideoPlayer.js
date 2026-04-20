@@ -9,7 +9,7 @@ const SPAN_LIKE = document.getElementById('span_like_count');
 const SPAN_DISLIKE = document.getElementById('span_dislike_count');
 
 // Content manager and editor html elements.
-const CONTENT_EDITOR = document.getElementById('content_editor');
+const Manager_controls = document.getElementById('id_manager_controls');
 const COMMENTS = document.getElementById('Comments');
 const ADD_COMMENT = document.getElementById('add_comment');
 
@@ -39,16 +39,13 @@ async function fetchUserInfo() {
     }
 }
 
-async function checkUserRole() {
-    const userInfo = await fetchUserInfo();
-
-    console.log("User info:", userInfo);
+async function checkUserRole(userInfo) {
 
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
-        return;
+        return false;
     }
-
+    return true;
 }
 
 // Function to get the movie ID from the URL parameters.
@@ -57,8 +54,10 @@ function getMovieIDUrl() {
     return urlParams.get('videoID');
 }
 
-async function loadMovie() {
+async function loadMovie(userInfo) {
     const movieID = getMovieIDUrl();
+    const role = userInfo.user.role;
+
     if (!movieID) {
         alert('No movie ID provided in the URL.');
         return;
@@ -77,7 +76,6 @@ async function loadMovie() {
         }
 
         const movie = data.movie;
-        const role = sessionStorage.getItem('userRole');
 
         // Update the video player with the movie data.
         HEADING_TITLE.textContent = movie.title;
@@ -90,8 +88,8 @@ async function loadMovie() {
         SPAN_DISLIKE.textContent = movie.dislikes;
 
 
-        if (role == 'content_editor' || role == 'marketing_manager') {
-            CONTENT_EDITOR.style.display = 'block';
+        if (role == 'content_editor' || role == 'marketing_manager' || role == 'admin') {
+            Manager_controls.style.display = 'block';
             renderComments(movie.comments || []);
         }
         
@@ -204,7 +202,13 @@ async function submitComment() {
     return;
 }
 
-checkUserRole();
+async function init() {
+    const userInfo = await fetchUserInfo();
+    const isAuthorized = await checkUserRole(userInfo);
+    if (isAuthorized) {
+        await loadMovie(userInfo);
+    }
+}
 
 // Like and dislike buttons.
 BUTTON_LIKE.addEventListener('click', likeMovie);
@@ -216,4 +220,4 @@ if (BUTTON_SUBMIT_COMMENT) {
 }
 
 // Load the movie when the page is ready.
-document.addEventListener('DOMContentLoaded', loadMovie);
+document.addEventListener('DOMContentLoaded', init);
