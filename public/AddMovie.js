@@ -14,12 +14,39 @@ function extractVideoID(url) {
     return (match && match[7].length === 11) ? match[7] : null;
 }
 
+async function submitMovie(movieData) {
+    try {
+        const response = await fetch('/movies/add-movie', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(movieData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to add movie');
+        }
+
+        alert('Movie added successfully!');
+        window.location.href = 'Gallery.html';
+
+    } catch (error) {
+        console.error('Error adding movie:', error);
+        alert('Error adding movie. Please try again.');
+    }
+}
+
+
 if (FORM) {
     FORM.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const title = TITLE_INPUT.value.trim();
         const youtubeLink = YOUTUBE_LINK_INPUT.value.trim();
+        const genre = GENRE_INPUT.value.trim();
         const description = DESCRIPTION_INPUT.value.trim();
 
         if(!title) { alert("Please enter a title for the movie."); return; }
@@ -33,7 +60,14 @@ if (FORM) {
             return;
         }
 
-        alert(videoID);
+        const movieData = {
+            title,
+            genre,
+            videoID,
+            description
+        };
 
+        await submitMovie(movieData);
+        
     });
 }
