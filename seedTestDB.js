@@ -21,6 +21,23 @@ const users = [
     ]
   },
   {
+    username:"editor1",
+    password: "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    fullName: "Editor One",
+    role: "content editor",
+    firstLogin: true,
+    recoveryQuestions: [
+      {
+        question: "what is 2 + 2?",
+        answer: "4"
+      },
+      {
+        question: "what is the square root of 16",
+        answer: "4"
+      }
+    ] 
+  },
+  {
     username: "viewer1",
     password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
     fullName: "Viewer One",
