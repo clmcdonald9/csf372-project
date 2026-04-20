@@ -41,7 +41,7 @@ const users = [
     username: "manager1",
     password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
     fullName: "Manager One",
-    role: "manager",
+    role: "marketing manager",
     firstLogin: true,
     recoveryQuestions: [
       {
