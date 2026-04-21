@@ -10,7 +10,7 @@ const SPAN_DISLIKE = document.getElementById('span_dislike_count');
 
 // Content manager and editor html elements.
 const Manager_controls = document.getElementById('id_manager_controls');
-const COMMENTS = document.getElementById('Comments');
+const COMMENTS = document.getElementById('div_comments');
 const ADD_COMMENT = document.getElementById('add_comment');
 
 // Comment section elements.
@@ -65,11 +65,12 @@ async function loadMovie(userInfo) {
 
     try {
         const response = await fetch(`/api/movies/${movieID}`);
-        const data = await response.json();
 
         if (!response.ok) {
             throw new Error(data.error || 'Failed to load movie.');
         }
+        
+        const data = await response.json();
 
         if (!data.success) {
             throw new Error(data.message || 'Failed to load movie data.');
@@ -88,14 +89,12 @@ async function loadMovie(userInfo) {
         SPAN_DISLIKE.textContent = movie.dislikes;
 
 
-        if (role == 'content_editor' || role == 'marketing_manager' || role == 'admin') {
+        if (role == 'content editor' || role == 'marketing manager' || role == 'admin') {
             Manager_controls.style.display = 'block';
             renderComments(movie.comments || []);
         }
         
-        if (role == 'marketing_manager') {
-            ADD_COMMENT.style.display = 'block';
-        }
+        
     } catch (error) {
         console.error('Error loading movie:', error);
         HEADING_TITLE.textContent = 'Error loading movie';
@@ -107,6 +106,8 @@ async function loadMovie(userInfo) {
 function renderComments(comments) {
     COMMENTS.innerHTML = '';
 
+    console.log('Rendering comments:', comments);
+
     if (comments.length === 0) {
         const emptyMessage = document.createElement('p');
         emptyMessage.textContent = 'No comments yet.';
@@ -115,15 +116,16 @@ function renderComments(comments) {
     }
 
     comments.forEach(function (comment) {
+        console.log('Rendering comment:', comment);
         const div = document.createElement('div');
         div.style.borderBottom = '1px solid #ccc';
         div.style.padding = '10px 0';
 
         const author = document.createElement('strong');
-        author.textContent = comment.author;
+        author.textContent = comment.username + ': ';
 
         const text = document.createElement('p');
-        text.textContent = comment.text;
+        text.textContent = comment.comment;
         text.style.margin = '5px 0';
 
         div.appendChild(author);
