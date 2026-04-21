@@ -193,15 +193,13 @@ async function submitComment() {
 
     try {
         
-        const response = await fetch('movies/comment', {
+        const response = await fetch(`movies/${movieID}/comment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ 
-                username: username,
                 text: text,
-                movieID: movieID
             })
         });
         const data = await response.json();
@@ -212,6 +210,7 @@ async function submitComment() {
         } else {
             alert(data.message);
         }
+
     } catch (error) {
         console.error('Error submitting comment:', error);
         alert('Failed to submit comment.');
