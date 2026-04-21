@@ -1,7 +1,7 @@
 // Updateable variables for the video player.
 const HEADING_TITLE = document.getElementById('heading_movie_title');
-const VIDEO_PLAYER = document.getElementById('video_player');
-const PARAGRAPH = document.getElementById('paragraph_movie_description');
+const VIDEO_PLAYER = document.getElementById('iframe_video_player');
+const MOVIE_DESCRIPTION = document.getElementById('p_movie_description');
 
 const BUTTON_LIKE = document.getElementById('button_like');
 const BUTTON_DISLIKE = document.getElementById('button_dislike');
@@ -11,7 +11,7 @@ const SPAN_DISLIKE = document.getElementById('span_dislike_count');
 // Content manager and editor html elements.
 const Manager_controls = document.getElementById('id_manager_controls');
 const COMMENTS = document.getElementById('div_comments');
-const ADD_COMMENT = document.getElementById('add_comment');
+const ADD_COMMENT = document.getElementById('div_add_comment');
 
 // Comment section elements.
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
@@ -80,7 +80,7 @@ async function loadMovie(userInfo) {
 
         // Update the video player with the movie data.
         HEADING_TITLE.textContent = movie.title;
-        PARAGRAPH.textContent = movie.description;
+        MOVIE_DESCRIPTION.textContent = movie.description;
 
         VIDEO_PLAYER.src = `https://www.youtube.com/embed/${movie.videoID}?rel=0&modestbranding=1`;
 
@@ -94,11 +94,14 @@ async function loadMovie(userInfo) {
             renderComments(movie.comments || []);
         }
         
-        
+        if (role === 'marketing manager' || role === 'admin') {
+            ADD_COMMENT.style.display = 'block';
+        }
+
     } catch (error) {
         console.error('Error loading movie:', error);
         HEADING_TITLE.textContent = 'Error loading movie';
-        PARAGRAPH.textContent = error.message;
+        MOVIE_DESCRIPTION.textContent = error.message;
     }
     return;
 }
