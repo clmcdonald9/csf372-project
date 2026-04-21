@@ -27,15 +27,18 @@ app.use('/Videos', express.static(path.join(__dirname, 'Videos')));
 const authRouter = require('./routes/auth')
 app.use('/auth', authRouter )
 
+const moviesRouter = require('./routes/movies');
+app.use('/movies', moviesRouter);
+
 async function startServer() {
     await connectToDB();
     // API route for the Video Player.
-    app.get('/api/movies/:title', async (req, res) => {
+    app.get('/api/movies/:movieID', async (req, res) => {
         try {
-            const movieTitle = req.params.title;
+            const movieID = req.params.movieID;
             const db = getDB();
 
-            const movieData = await db.collection("movies").findOne({ title: movieTitle });
+            const movieData = await db.collection("movies").findOne({ videoID: movieID });
 
             if (!movieData) {
                 res.status(404).json({ success: false, message: "Movie not found" });

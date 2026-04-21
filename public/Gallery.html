@@ -26,36 +26,51 @@
             color: white;
             margin: 0 15px;
             font-weight: bold;
-       	}
-
+        }
+        .add_button {
+            display: block;
+            margin-left: auto;
+        }
+		.gallery_grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 20px;
+            margin: 20px auto;
+        }
+        .gallery_item {
+            text-align: center;
+            width: 100%;
+        }
+        .thumbnail {
+            width: 100%;
+            object-fit: cover;
+        }
+        .movie_title {
+            text-align: center;
+            max-width: 100%;
+            margin: 4px auto;
+            word-wrap: break-word;
+        }
         .content { 
 			padding: 40px; 
 			text-align: center; 
 			flex: 1;
 		}
-
         p { 
 			font-size: 12pt; 
 			text-align: justify; 
 			max-width: 800px; 
 			margin: auto; 
 		}
-
         footer { 
-			text-align: center; 
-		}
-
-		 .thumbnail { /* This is a test to try and get all of my images to be a more regular size. */
-        width: 200px;
-        height: 200px;
-        object-fit: cover;
-    	}
+            text-align: center; 
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="../logo.png" title="UAF Logo">
+    <img src="logo.png" title="UAF Logo">
     <span style="font-size: 28px; font-weight: bold;"> UAF Films</span>
     <nav style="float: right;">
         <a href="Home.html">Home</a>
@@ -64,43 +79,16 @@
     </nav>
 </header>
 
-<div class="content">
-    <h2>Gallery</h2>
 
-    <table> <!-- The titles are for the images that existed here before. Sorry! -->
-		<tr>
-			<td><img src="Pictures/img1.jpg" class="thumbnail" title="Angry Giraffe"></td>
-			<td><img src="Pictures/img2.jpg" class="thumbnail" title="Hash Brown"></td>
-			<td><img src="Pictures/img3.jpg" class="thumbnail" title="Bella01"></td>
-			<td><img src="Pictures/img4.jpg" class="thumbnail" title="Serious Cat"></td>
-		</tr>
-		<tr>
-			<td><img src="Pictures/img5.jpg" class="thumbnail" title="Angry Cat"></td>
-			<td><img src="Pictures/img6.jpg" class="thumbnail" title="Little Guy"></td>
-			<td><img src="Pictures/img7.jpg" class="thumbnail" title="Mike"></td>
-			<td><img src="Pictures/img8.jpg" class="thumbnail" title="Smile Cat"></td>
-		</tr>
-		<tr>
-			<td><img src="Pictures/img9.jpg" class="thumbnail" title="Pica"></td>
-			<td><img src="Pictures/img10.jpg" class="thumbnail" title="Panera Cat"></td>
-			<td><img src="Pictures/img11.jpg" class="thumbnail" title="Bella02"></td>
-			<td><img src="Pictures/img12.jpg" class="thumbnail" title="Calamity"></td>
-		</tr>
-		<tr>
-			<td><img src="Pictures/img13.jpg" class="thumbnail" title="Horse Shoe"></td>
-			<td><img src="Pictures/img14.jpg" class="thumbnail" title="Tridoof"></td>
-			<td><img src="Pictures/img15.jpg" class="thumbnail" title="Bella and Bidoof"></td>
-			<td><img src="Pictures/img16.jpg" class="thumbnail" title="Cat Glare"></td>
-		</tr>
-		<tr>
-			<td><img src="Pictures/img17.jpg" class="thumbnail" title="Tom Nook 2x"></td>
-			<td><img src="Pictures/img18.jpg" class="thumbnail" title="Roo"></td>
-			<td><img src="Pictures/img19.jpg" class="thumbnail" title="Bella03"></td>
-			<td><img src="Pictures/img20.jpg" class="thumbnail" title="Pibble"></td>
-		</tr>
-	</table> <!-- I am pretty sure that my solution to the 4x5 grid is imperfect and will need to be scaled.
-			      No one asked how many movies we will be storing so if it happens to be exactly this many or
-				  undefined, then we are good to go! -->
+
+<div class="content">
+
+    <h2>Gallery</h2>
+    <button id="add_button" class="add_button"> <a href="AddMovie.html">Add a Movie</a> </button>
+
+
+	<div id="div_gallery_grid" class="gallery_grid"></div>
+	
 </div>
 
 <footer>
@@ -108,6 +96,8 @@
     <br>
     &copy; UAFFILMS
 </footer>
+
+<script src="Gallery.js"></script>
 
 </body>
 </html>

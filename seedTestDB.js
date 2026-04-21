@@ -21,6 +21,23 @@ const users = [
     ]
   },
   {
+    username:"editor1",
+    password: "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    fullName: "Editor One",
+    role: "content editor",
+    firstLogin: true,
+    recoveryQuestions: [
+      {
+        question: "what is 2 + 2?",
+        answer: "4"
+      },
+      {
+        question: "what is the square root of 16",
+        answer: "4"
+      }
+    ] 
+  },
+  {
     username: "viewer1",
     password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
     fullName: "Viewer One",
@@ -41,22 +58,20 @@ const users = [
 
 const movies = [
   {
-    title: "movie1",
-    genre: "Adventure",
-    releaseDate: 2024,
+    title: "The Greatest Mysteries of the Pacific Ocean",
+    genre: "educational",
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoPath: "Videos/movie1.mp4"
+    videoID: "bxIV_itPWkU"
   },
   {
-    title: "movie2",
-    genre: "Sci-Fi",
-    releaseDate: 2023,
+    title: "a plant documentary",
+    genre: "educational",
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoPath: "Videos/movie2.mp4"
+    videoID: "LWzUt5uoDV0"
   }
 ];
 

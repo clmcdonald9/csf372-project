@@ -1,6 +1,5 @@
 // Updateable variables for the video player.
 const HEADING_TITLE = document.getElementById('heading_movie_title');
-const VIDEO_SOURCE = document.getElementById('source_video');
 const VIDEO_PLAYER = document.getElementById('video_player');
 const PARAGRAPH = document.getElementById('paragraph_movie_description');
 
@@ -14,32 +13,59 @@ const CONTENT_EDITOR = document.getElementById('content_editor');
 const COMMENTS = document.getElementById('Comments');
 const ADD_COMMENT = document.getElementById('add_comment');
 
-// Video player buttons.
-const PLAY_BUTTON = document.getElementById('play_button');
-const PAUSE_BUTTON = document.getElementById('pause_button');
-const STOP_BUTTON = document.getElementById('stop_button');
-const REWIND_BUTTON = document.getElementById('rewind_button');
-const FAST_FORWARD_BUTTON = document.getElementById('fast_forward_button');
-
 // Comment section elements.
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
 const BUTTON_SUBMIT_COMMENT = document.getElementById('button_submit_comment');
 
-// Function to get the movie title from the URL parameters.
-function getMovieTitleUrl() {
+async function fetchUserInfo() {
+    try {
+        const response = await fetch('/auth/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user info');
+        }
+        
+        const userInfo = await response.json();
+        return userInfo;
+
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        return null;
+    }
+}
+
+async function checkUserRole() {
+    const userInfo = await fetchUserInfo();
+
+    console.log("User info:", userInfo);
+
+    if (!userInfo || !userInfo.loggedIn) {
+        window.location.href = 'Login.html';
+        return;
+    }
+
+}
+
+// Function to get the movie ID from the URL parameters.
+function getMovieIDUrl() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('title');
+    return urlParams.get('videoID');
 }
 
 async function loadMovie() {
-    const movieTitle = getMovieTitleUrl();
-    if (!movieTitle) {
-        alert('No movie title provided in the URL.');
+    const movieID = getMovieIDUrl();
+    if (!movieID) {
+        alert('No movie ID provided in the URL.');
         return;
     }
 
     try {
-        const response = await fetch(`/api/movies/` + movieTitle);
+        const response = await fetch(`/api/movies/${movieID}`);
         const data = await response.json();
 
         if (!response.ok) {
@@ -56,8 +82,8 @@ async function loadMovie() {
         // Update the video player with the movie data.
         HEADING_TITLE.textContent = movie.title;
         PARAGRAPH.textContent = movie.description;
-        VIDEO_SOURCE.src = movie.videoPath;
-        VIDEO_PLAYER.load();
+
+        VIDEO_PLAYER.src = `https://www.youtube.com/embed/${movie.videoID}?rel=0&modestbranding=1`;
 
         // Update the like and dislike counts.
         SPAN_LIKE.textContent = movie.likes;
@@ -108,7 +134,7 @@ function renderComments(comments) {
 }   
 
 async function likeMovie() {
-    const movieTitle = getMovieTitleUrl();
+    const movieTitle = getMovieIDUrl();
 
     try {
         const response = await fetch(`/api/movies/` + movieTitle + `/like`, {
@@ -127,7 +153,7 @@ async function likeMovie() {
 }
 
 async function dislikeMovie() {
-    const movieTitle = getMovieTitleUrl();
+    const movieTitle = getMovieIDUrl();
 
     try {
         const response = await fetch(`/api/movies/` + movieTitle + `/dislike`, {
@@ -145,7 +171,7 @@ async function dislikeMovie() {
 }
 
 async function submitComment() {
-    const movieTitle = getMovieTitleUrl(); 
+    const movieTitle = getMovieIDUrl(); 
     const text = TEXT_NEW_COMMENT.value.trim();
 
     if (text === '') {
@@ -178,32 +204,7 @@ async function submitComment() {
     return;
 }
 
-// Playback controls.
-PLAY_BUTTON.addEventListener('click', function () {
-    VIDEO_PLAYER.play();
-    return;
-});
-
-PAUSE_BUTTON.addEventListener('click', function () {
-    VIDEO_PLAYER.pause();
-    return;
-});
-
-STOP_BUTTON.addEventListener('click', function () {
-    VIDEO_PLAYER.pause();
-    VIDEO_PLAYER.currentTime = 0;
-    return;
-});
-
-REWIND_BUTTON.addEventListener('click', function () {
-    VIDEO_PLAYER.currentTime = Math.max(0, VIDEO_PLAYER.currentTime - 10);
-    return;
-});
-
-FAST_FORWARD_BUTTON.addEventListener('click', function () {
-    VIDEO_PLAYER.currentTime = Math.min(VIDEO_PLAYER.duration, VIDEO_PLAYER.currentTime + 10);
-    return;
-});
+checkUserRole();
 
 // Like and dislike buttons.
 BUTTON_LIKE.addEventListener('click', likeMovie);
