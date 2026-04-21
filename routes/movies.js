@@ -43,4 +43,52 @@ router.post('/add-movie', async (req, res) => {
     }
 });
 
+router.post('/comment', async (req, res) => {
+    const db = getDB();
+    const { text, movieID } = req.body;
+
+    if (!text || !movieID) {
+        return res.status(400).json({ message: 'Comment text and movieID are required' });
+    }
+
+    const newComment = {
+        username: req.session.user.username,
+        comment: text
+    };
+
+    try {
+        await db.collection('movies').updateOne(
+            { videoID: movieID },
+            { $push: { comments: newComment } }
+        );
+
+        const updatedMovie = await db.collection('movies').findOne({ videoID: movieID });
+
+        res.status(201).json({ success: true, comments: updatedMovie.comments });
+
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while adding the comment' });
+    }
+});
+
+router.get('/:movieID', async (req, res) => {
+    try {
+        const movieID = req.params.movieID;
+        const db = getDB();
+
+        const movieData = await db.collection("movies").findOne({ videoID: movieID });
+
+        if (!movieData) {
+            res.status(404).json({ success: false, message: "Movie not found" });
+            return;
+        }
+
+        res.status(200).json({ success: true, movie: movieData });
+    } catch (error) {
+        console.error("Error fetching movie:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
 module.exports = router;
