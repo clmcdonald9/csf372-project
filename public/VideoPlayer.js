@@ -64,7 +64,7 @@ async function loadMovie(userInfo) {
     }
 
     try {
-        const response = await fetch(`/api/movies/${movieID}`);
+        const response = await fetch(`/movies/${movieID}`);
 
         if (!response.ok) {
             throw new Error(data.error || 'Failed to load movie.');
@@ -223,7 +223,7 @@ BUTTON_DISLIKE.addEventListener('click', dislikeMovie);
 
 // Comment submit button.
 if (BUTTON_SUBMIT_COMMENT) {
-    BUTTON_SUBMIT_COMMENT.addEventListener('click', submitComment);
+    
 }
 
 // Load the movie when the page is ready.

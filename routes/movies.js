@@ -43,4 +43,23 @@ router.post('/add-movie', async (req, res) => {
     }
 });
 
+router.get('/:movieID', async (req, res) => {
+    try {
+        const movieID = req.params.movieID;
+        const db = getDB();
+
+        const movieData = await db.collection("movies").findOne({ videoID: movieID });
+
+        if (!movieData) {
+            res.status(404).json({ success: false, message: "Movie not found" });
+            return;
+        }
+
+        res.status(200).json({ success: true, movie: movieData });
+    } catch (error) {
+        console.error("Error fetching movie:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
 module.exports = router;
