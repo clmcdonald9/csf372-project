@@ -43,10 +43,11 @@ router.post('/add-movie', async (req, res) => {
     }
 });
 
-router.post('/comment', async (req, res) => {
+router.post('/:movieID/comment', async (req, res) => {
     const db = getDB();
-    const { text, movieID } = req.body;
-
+    const { text } = req.body;
+    const { movieID } = req.params;
+    
     if (!text || !movieID) {
         return res.status(400).json({ message: 'Comment text and movieID are required' });
     }
