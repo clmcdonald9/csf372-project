@@ -47,7 +47,7 @@ router.post('/:movieID/comment', async (req, res) => {
     const db = getDB();
     const { text } = req.body;
     const { movieID } = req.params;
-    
+
     if (!text || !movieID) {
         return res.status(400).json({ message: 'Comment text and movieID are required' });
     }
@@ -70,6 +70,29 @@ router.post('/:movieID/comment', async (req, res) => {
     } catch (error) {
         console.error('Error adding comment:', error);
         res.status(500).json({ success: false, message: 'An error occurred while adding the comment' });
+    }
+});
+
+router.post('/:movieID/like', async (req, res) => {
+    const db = getDB();
+    const { movieID } = req.params;
+
+    try {
+        const result = await db.collection('movies').findOneAndUpdate(
+            { videoID: movieID },
+            { $inc: { likes: 1 } },
+            { returnDocument: 'after' }
+        );
+
+        if (!result.value) {
+            return res.status(404).json({ success: false, message: 'Movie not found' });
+        }
+
+        res.status(200).json({ success: true, likes: result.value.likes });
+    } catch (error) {
+        console.error('Error liking movie:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while liking the movie' });
+
     }
 });
 

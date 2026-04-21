@@ -111,8 +111,6 @@ async function loadMovie() {
 function renderComments(comments) {
     COMMENTS.innerHTML = '';
 
-    console.log('Rendering comments:', comments);
-
     if (comments.length === 0) {
         const emptyMessage = document.createElement('p');
         emptyMessage.textContent = 'No comments yet.';
@@ -121,7 +119,6 @@ function renderComments(comments) {
     }
 
     comments.forEach(function (comment) {
-        console.log('Rendering comment:', comment);
         const div = document.createElement('div');
         div.style.borderBottom = '1px solid #ccc';
         div.style.padding = '10px 0';
@@ -144,7 +141,7 @@ async function likeMovie() {
     const movieTitle = getMovieIDUrl();
 
     try {
-        const response = await fetch(`/movies/like`, {
+        const response = await fetch(`/movies/${movieTitle}/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -153,9 +150,13 @@ async function likeMovie() {
         });
         const data = await response.json();
 
-        if (data.success) {
-            SPAN_LIKE.textContent = data.likes;
+        if (!data.success) {
+            throw new Error(data.message || 'Failed to like movie.');
         }
+
+        SPAN_LIKE.textContent = data.likes;
+        console.log(data.message, data.likes);
+
     } catch (error) {
         console.error('Error liking movie:', error);
     }
