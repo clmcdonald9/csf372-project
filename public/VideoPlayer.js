@@ -137,8 +137,12 @@ async function likeMovie() {
     const movieTitle = getMovieIDUrl();
 
     try {
-        const response = await fetch(`/api/movies/` + movieTitle + `/like`, {
-            method: 'POST'
+        const response = await fetch(`/movies/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ videoID: movieTitle })
         });
         const data = await response.json();
 
