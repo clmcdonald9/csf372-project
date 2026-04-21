@@ -17,6 +17,8 @@ const ADD_COMMENT = document.getElementById('div_add_comment');
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
 const BUTTON_SUBMIT_COMMENT = document.getElementById('button_submit_comment');
 
+let USER_INFO = null;
+
 async function fetchUserInfo() {
     try {
         const response = await fetch('/auth/user', {
@@ -39,7 +41,7 @@ async function fetchUserInfo() {
     }
 }
 
-async function checkUserRole(userInfo) {
+async function checkUserRole() {
 
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
@@ -54,7 +56,7 @@ function getMovieIDUrl() {
     return urlParams.get('videoID');
 }
 
-async function loadMovie(userInfo) {
+async function loadMovie() {
     const movieID = getMovieIDUrl();
     const role = userInfo.user.role;
 
@@ -176,8 +178,9 @@ async function dislikeMovie() {
 }
 
 async function submitComment() {
-    const movieTitle = getMovieIDUrl(); 
+    const movieID = getMovieIDUrl(); 
     const text = TEXT_NEW_COMMENT.value.trim();
+    const username = userInfo.user.username;
 
     if (text === '') {
         alert('Please enter a comment.');
@@ -186,12 +189,16 @@ async function submitComment() {
 
     try {
         
-        const response = await fetch('/api/movies/' + movieTitle + '/comment', {
+        const response = await fetch('movies/comment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ text: text })
+            body: JSON.stringify({ 
+                username: username,
+                text: text,
+                movieID: movieID
+            })
         });
         const data = await response.json();
 
@@ -210,10 +217,10 @@ async function submitComment() {
 }
 
 async function init() {
-    const userInfo = await fetchUserInfo();
-    const isAuthorized = await checkUserRole(userInfo);
+    userInfo = await fetchUserInfo();
+    const isAuthorized = await checkUserRole();
     if (isAuthorized) {
-        await loadMovie(userInfo);
+        await loadMovie();
     }
 }
 
@@ -223,7 +230,7 @@ BUTTON_DISLIKE.addEventListener('click', dislikeMovie);
 
 // Comment submit button.
 if (BUTTON_SUBMIT_COMMENT) {
-    
+    BUTTON_SUBMIT_COMMENT.addEventListener('click', submitComment);
 }
 
 // Load the movie when the page is ready.
