@@ -82,7 +82,8 @@ const movies = [
     views: 0,
     likes: 0,
     dislikes: 0,
-    ratedBy: [],
+    likedBy: [],
+    dislikedBy: [],
     comments: [
       {
         username: "manager1",
@@ -98,7 +99,8 @@ const movies = [
     views: 0,
     likes: 0,
     dislikes: 0,
-    ratedBy: [],
+    likedBy: [],
+    dislikedBy: [],
     comments: [
       {
         username: "manager1",
