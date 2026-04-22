@@ -118,6 +118,48 @@ router.post('/:movieID/like', async (req, res) => {
     }
 });
 
+router.post('/:movieID/dislike', async (req, res) => {
+    try {
+        const db = getDB();
+        const { movieID } = req.params;
+        const user = req.session.user;
+
+        if (!user) {
+            return res.status(401).json({ success: false, message: 'Unauthorized: User not logged in' });
+        }
+
+        const movie = await db.collection('movies').findOne({ videoID: movieID });
+
+        if (!movie) {
+            return res.status(404).json({ success: false, message: 'Movie not found' });
+        }
+
+        const alreadyDisliked = movie.ratedBy.includes(req.session.user.username);
+
+        const updateDislikes = await db.collection('movies').updateOne(
+            { videoID: movieID },
+            alreadyDisliked 
+            ? { $inc: { dislikes: 1 }, $pull: { ratedBy: req.session.user.username } }
+            : { $inc: { dislikes: 1 }, $push: { ratedBy: req.session.user.username } }
+        );
+
+        if (updateDislikes.matchedCount === 0) {
+            return res.status(404).json({ success: false, message: 'Movie not found and dislikes not updated' });
+        }
+
+        const result = await db.collection('movies').findOne({ videoID: movieID }, { projection: { dislikes: 1, _id: 0} });
+
+        if (!result) {
+            return res.status(404).json({ success: false, message: 'Movie and dislikes not found' });
+        }
+
+        res.status(200).json({ success: true, dislikes: result.dislikes });
+    } catch (error) {
+        console.error('Error disliking movie:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while disliking the movie' });
+    }
+});
+
 router.get('/:movieID', async (req, res) => {
     try {
         const movieID = req.params.movieID;
