@@ -79,11 +79,25 @@ router.post('/:movieID/like', async (req, res) => {
     try {
         const db = getDB();
         const { movieID } = req.params;
+        const user = req.session.user;
 
+        if (!user) {
+            return res.status(401).json({ success: false, message: 'Unauthorized: User not logged in' });
+        }
+
+        const movie = await db.collection('movies').findOne({ videoID: movieID });
+
+        if (!movie) {
+            return res.status(404).json({ success: false, message: 'Movie not found' });
+        }
+
+        const alreadyLiked = movie.ratedBy.includes(req.session.user.username);
 
         const updateLikes = await db.collection('movies').updateOne(
             { videoID: movieID },
-            { $inc: { likes: 1 } }
+            alreadyLiked 
+            ? { $inc: { likes: -1 }, $pull: { ratedBy: req.session.user.username } }
+            : { $inc: { likes: 1 }, $push: { ratedBy: req.session.user.username } }
         );
 
         if (updateLikes.matchedCount === 0) {
