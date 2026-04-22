@@ -112,6 +112,7 @@ async function loadMovie() {
         console.error('Error loading movie:', error);
         HEADING_TITLE.textContent = 'Error loading movie';
         MOVIE_DESCRIPTION.textContent = error.message;
+        alert('Failed to load movie: ' + error.message);
     }
     return;
 }
@@ -175,6 +176,7 @@ async function likeMovie() {
 
     } catch (error) {
         console.error('Error liking movie:', error);
+        alert('Failed to like movie: ' + error.message);
     }
 
     return;
@@ -206,6 +208,7 @@ async function dislikeMovie() {
 
     } catch (error) {
         console.error('Error disliking movie:', error);
+        alert('Failed to dislike movie: ' + error.message);
     }
     return;
 }
