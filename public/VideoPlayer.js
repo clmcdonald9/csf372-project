@@ -100,6 +100,14 @@ async function loadMovie() {
             ADD_COMMENT.style.display = 'block';
         }
 
+        if (data.userLiked) {
+            BUTTON_LIKE.classList.add('rated');
+        }
+
+        if (data.userDisliked) {
+            BUTTON_DISLIKE.classList.add('rated');
+        }
+
     } catch (error) {
         console.error('Error loading movie:', error);
         HEADING_TITLE.textContent = 'Error loading movie';

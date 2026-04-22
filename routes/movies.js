@@ -194,6 +194,7 @@ router.get('/:movieID', async (req, res) => {
     try {
         const movieID = req.params.movieID;
         const db = getDB();
+        const user = req.session.user.username;
 
         const movieData = await db.collection("movies").findOne({ videoID: movieID });
 
@@ -202,7 +203,23 @@ router.get('/:movieID', async (req, res) => {
             return;
         }
 
-        res.status(200).json({ success: true, movie: movieData });
+        let liked;
+
+        if (movieData.likedBy.includes(user)) {
+            liked = true;
+        } else {
+            liked = false;
+        }
+
+        let disliked;
+
+        if (movieData.dislikedBy.includes(user)) {
+            disliked = true;
+        } else {
+            disliked = false;
+        }
+
+        res.status(200).json({ success: true, userLiked: liked, userDisliked: disliked, movie: movieData });
     } catch (error) {
         console.error("Error fetching movie:", error);
         res.status(500).json({ success: false, message: "Server error" });
