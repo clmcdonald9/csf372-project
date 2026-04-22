@@ -93,25 +93,35 @@ router.post('/:movieID/like', async (req, res) => {
         }
 
         const alreadyLiked = movie.likedBy.includes(req.session.user.username);
+        const alreadyDisliked = movie.dislikedBy.includes(req.session.user.username);
 
-        const updateLikes = await db.collection('movies').updateOne(
+        let update;
+
+        if (alreadyLiked) {
+            update = { $inc: { likes: -1 }, $pull: { likedBy: req.session.user.username } };
+        } else if (alreadyDisliked) {
+            update = { $inc: { likes: 1, dislikes: -1 }, $pull: { dislikedBy: req.session.user.username }, $addToSet: { likedBy: req.session.user.username } };
+        } else {
+            update = { $inc: { likes: 1 }, $addToSet: { likedBy: req.session.user.username } };
+        }
+
+
+        const updateResult = await db.collection('movies').updateOne(
             { videoID: movieID },
-            alreadyLiked 
-            ? { $inc: { likes: -1 }, $pull: { likedBy: req.session.user.username } }
-            : { $inc: { likes: 1 }, $push: { likedBy: req.session.user.username } }
+            update
         );
 
-        if (updateLikes.matchedCount === 0) {
+        if (updateResult.matchedCount === 0) {
             return res.status(404).json({ success: false, message: 'Movie not found and likes not updated' });
         }
 
-        const result = await db.collection('movies').findOne({ videoID: movieID }, { projection: { likes: 1, _id: 0} });
+        const result = await db.collection('movies').findOne({ videoID: movieID }, { projection: { likes: 1, dislikes: 1, _id: 0} });
 
         if (!result) {
             return res.status(404).json({ success: false, message: 'Movie and likes not found' });
         }
 
-        res.status(200).json({ success: true, likes: result.likes });
+        res.status(200).json({ success: true, likes: result.likes, dislikes: result.dislikes });
     } catch (error) {
         console.error('Error liking movie:', error);
         res.status(500).json({ success: false, message: 'An error occurred while liking the movie' });
@@ -136,25 +146,34 @@ router.post('/:movieID/dislike', async (req, res) => {
         }
 
         const alreadyDisliked = movie.dislikedBy.includes(req.session.user.username);
+        const alreadyLiked = movie.likedBy.includes(req.session.user.username);
 
-        const updateDislikes = await db.collection('movies').updateOne(
+        let update;
+
+        if (alreadyDisliked) {
+            update = { $inc: { dislikes: -1 }, $pull: { dislikedBy: req.session.user.username } };
+        } else if (alreadyLiked) {
+            update = { $inc: { likes: -1, dislikes: 1 }, $pull: { likedBy: req.session.user.username }, $addToSet: { dislikedBy: req.session.user.username } };
+        } else {
+            update = { $inc: { dislikes: 1 }, $addToSet: { dislikedBy: req.session.user.username } };
+        }
+
+        const updateResult = await db.collection('movies').updateOne(
             { videoID: movieID },
-            alreadyDisliked 
-            ? { $inc: { dislikes: -1 }, $pull: { dislikedBy: req.session.user.username } }
-            : { $inc: { dislikes: 1 }, $push: { dislikedBy: req.session.user.username } }
+            update
         );
 
-        if (updateDislikes.matchedCount === 0) {
+        if (updateResult.matchedCount === 0) {
             return res.status(404).json({ success: false, message: 'Movie not found and dislikes not updated' });
         }
 
-        const result = await db.collection('movies').findOne({ videoID: movieID }, { projection: { dislikes: 1, _id: 0} });
+        const result = await db.collection('movies').findOne({ videoID: movieID }, { projection: { likes: 1, dislikes: 1, _id: 0} });
 
         if (!result) {
             return res.status(404).json({ success: false, message: 'Movie and dislikes not found' });
         }
 
-        res.status(200).json({ success: true, dislikes: result.dislikes });
+        res.status(200).json({ success: true, likes: result.likes, dislikes: result.dislikes });
 
     } catch (error) {
         console.error('Error disliking movie:', error);

@@ -155,6 +155,7 @@ async function likeMovie() {
             throw new Error(data.message || 'Failed to like movie.');
         }
 
+        SPAN_DISLIKE.textContent = data.dislikes;
         SPAN_LIKE.textContent = data.likes;
 
     } catch (error) {
@@ -179,6 +180,7 @@ async function dislikeMovie() {
         }
 
         SPAN_DISLIKE.textContent = data.dislikes;
+        SPAN_LIKE.textContent = data.likes;
 
     } catch (error) {
         console.error('Error disliking movie:', error);
