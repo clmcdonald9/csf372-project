@@ -155,7 +155,6 @@ async function likeMovie() {
         }
 
         SPAN_LIKE.textContent = data.likes;
-        console.log(data.message, data.likes);
 
     } catch (error) {
         console.error('Error liking movie:', error);

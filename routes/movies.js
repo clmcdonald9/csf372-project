@@ -74,21 +74,27 @@ router.post('/:movieID/comment', async (req, res) => {
 });
 
 router.post('/:movieID/like', async (req, res) => {
-    const db = getDB();
-    const { movieID } = req.params;
-
     try {
-        const result = await db.collection('movies').findOneAndUpdate(
+        const db = getDB();
+        const { movieID } = req.params;
+
+
+        const updateLikes = await db.collection('movies').updateOne(
             { videoID: movieID },
-            { $inc: { likes: 1 } },
-            { returnDocument: 'after' }
+            { $inc: { likes: 1 } }
         );
 
-        if (!result.value) {
-            return res.status(404).json({ success: false, message: 'Movie not found' });
+        if (updateLikes.matchedCount === 0) {
+            return res.status(404).json({ success: false, message: 'Movie not found and likes not updated' });
         }
 
-        res.status(200).json({ success: true, likes: result.value.likes });
+        const result = await db.collection('movies').findOne({ videoID: movieID }, { projection: { likes: 1, _id: 0} });
+
+        if (!result) {
+            return res.status(404).json({ success: false, message: 'Movie and likes not found' });
+        }
+
+        res.status(200).json({ success: true, likes: result.likes });
     } catch (error) {
         console.error('Error liking movie:', error);
         res.status(500).json({ success: false, message: 'An error occurred while liking the movie' });
