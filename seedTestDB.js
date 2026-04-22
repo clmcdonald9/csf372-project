@@ -77,11 +77,12 @@ const movies = [
   {
     title: "The Greatest Mysteries of the Pacific Ocean",
     genre: "educational",
+    videoID: "bxIV_itPWkU",
+    description: "a documentary about the mysteries of the pacific ocean",
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoID: "bxIV_itPWkU",
-    description: "a documentary about the mysteries of the pacific ocean",
+    ratedBy: [],
     comments: [
       {
         username: "manager1",
@@ -92,11 +93,12 @@ const movies = [
   {
     title: "a plant documentary",
     genre: "educational",
+    videoID: "LWzUt5uoDV0",
+    description: "a documentary about plants",
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoID: "LWzUt5uoDV0",
-    description: "a documentary about plants",
+    ratedBy: [],
     comments: [
       {
         username: "manager1",

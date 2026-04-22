@@ -31,7 +31,9 @@ router.post('/add-movie', async (req, res) => {
         description,
         views: 0,
         likes: 0,
-        dislikes: 0
+        dislikes: 0,
+        ratedBy: [],
+        comments: []
     };
 
     try {
