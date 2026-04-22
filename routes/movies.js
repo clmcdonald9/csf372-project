@@ -96,13 +96,18 @@ router.post('/:movieID/like', async (req, res) => {
         const alreadyDisliked = movie.dislikedBy.includes(req.session.user.username);
 
         let update;
+        let liked;
+        let disliked;
 
         if (alreadyLiked) {
             update = { $inc: { likes: -1 }, $pull: { likedBy: req.session.user.username } };
+            liked = false;
         } else if (alreadyDisliked) {
             update = { $inc: { likes: 1, dislikes: -1 }, $pull: { dislikedBy: req.session.user.username }, $addToSet: { likedBy: req.session.user.username } };
+            liked = true;
         } else {
             update = { $inc: { likes: 1 }, $addToSet: { likedBy: req.session.user.username } };
+            liked = true;
         }
 
 
@@ -121,7 +126,7 @@ router.post('/:movieID/like', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Movie and likes not found' });
         }
 
-        res.status(200).json({ success: true, likes: result.likes, dislikes: result.dislikes });
+        res.status(200).json({ success: true, liked:liked, likes: result.likes, dislikes: result.dislikes });
     } catch (error) {
         console.error('Error liking movie:', error);
         res.status(500).json({ success: false, message: 'An error occurred while liking the movie' });
@@ -149,13 +154,17 @@ router.post('/:movieID/dislike', async (req, res) => {
         const alreadyLiked = movie.likedBy.includes(req.session.user.username);
 
         let update;
+        let disliked;
 
         if (alreadyDisliked) {
             update = { $inc: { dislikes: -1 }, $pull: { dislikedBy: req.session.user.username } };
+            disliked = false;
         } else if (alreadyLiked) {
             update = { $inc: { likes: -1, dislikes: 1 }, $pull: { likedBy: req.session.user.username }, $addToSet: { dislikedBy: req.session.user.username } };
+            disliked = true;
         } else {
             update = { $inc: { dislikes: 1 }, $addToSet: { dislikedBy: req.session.user.username } };
+            disliked = true;
         }
 
         const updateResult = await db.collection('movies').updateOne(
@@ -173,7 +182,7 @@ router.post('/:movieID/dislike', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Movie and dislikes not found' });
         }
 
-        res.status(200).json({ success: true, likes: result.likes, dislikes: result.dislikes });
+        res.status(200).json({ success: true, disliked: disliked, likes: result.likes, dislikes: result.dislikes });
 
     } catch (error) {
         console.error('Error disliking movie:', error);

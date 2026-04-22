@@ -158,6 +158,13 @@ async function likeMovie() {
         SPAN_DISLIKE.textContent = data.dislikes;
         SPAN_LIKE.textContent = data.likes;
 
+        if (data.liked) {
+            BUTTON_LIKE.classList.add('rated');
+            BUTTON_DISLIKE.classList.remove('rated');
+        } else {
+            BUTTON_LIKE.classList.remove('rated');
+        }
+
     } catch (error) {
         console.error('Error liking movie:', error);
     }
@@ -181,6 +188,13 @@ async function dislikeMovie() {
 
         SPAN_DISLIKE.textContent = data.dislikes;
         SPAN_LIKE.textContent = data.likes;
+
+        if (data.disliked) {
+            BUTTON_DISLIKE.classList.add('rated');
+            BUTTON_LIKE.classList.remove('rated');
+        } else {
+            BUTTON_DISLIKE.classList.remove('rated');
+        }
 
     } catch (error) {
         console.error('Error disliking movie:', error);
