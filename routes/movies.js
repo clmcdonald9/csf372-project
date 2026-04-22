@@ -140,7 +140,7 @@ router.post('/:movieID/dislike', async (req, res) => {
         const updateDislikes = await db.collection('movies').updateOne(
             { videoID: movieID },
             alreadyDisliked 
-            ? { $inc: { dislikes: 1 }, $pull: { dislikedBy: req.session.user.username } }
+            ? { $inc: { dislikes: -1 }, $pull: { dislikedBy: req.session.user.username } }
             : { $inc: { dislikes: 1 }, $push: { dislikedBy: req.session.user.username } }
         );
 

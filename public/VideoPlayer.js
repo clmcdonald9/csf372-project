@@ -148,6 +148,7 @@ async function likeMovie() {
             },
             body: JSON.stringify({ videoID: movieTitle })
         });
+
         const data = await response.json();
 
         if (!data.success) {
@@ -167,14 +168,18 @@ async function dislikeMovie() {
     const movieTitle = getMovieIDUrl();
 
     try {
-        const response = await fetch(`/api/movies/` + movieTitle + `/dislike`, {
+        const response = await fetch(`/movies/${movieTitle}/dislike`, {
             method: 'POST'
         });
+
         const data = await response.json();
 
-        if (data.success) {
-            SPAN_DISLIKE.textContent = data.dislikes;
+        if (!data.success) {
+            throw new Error(data.message || 'Failed to dislike movie.');
         }
+
+        SPAN_DISLIKE.textContent = data.dislikes;
+
     } catch (error) {
         console.error('Error disliking movie:', error);
     }
