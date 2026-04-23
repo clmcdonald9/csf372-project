@@ -1,4 +1,11 @@
 # ~ The project repo ~
+## How to run
+1. run ``` npm install ``` in the terminal/console/whatever
+2. run mongosh
+3. in a separate terminal/console, run ``` node seedTestDB.js ```
+4. after the test DB successfully seeds, run ``` node server.js  ```
+5. in a browser window, go to "http://localhost:3000"
+
 ## Test Users
 All of the following test accounts have firstLogin set to true in seedTestDB.js.
 You will encounter the "Secure Your Account" page on each accounts first login.  
