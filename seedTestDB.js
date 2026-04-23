@@ -38,6 +38,23 @@ const users = [
     ] 
   },
   {
+    username: "manager1",
+    password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
+    fullName: "Manager One",
+    role: "marketing manager",
+    firstLogin: true,
+    recoveryQuestions: [
+      {
+        question: "what is 2 + 2?",
+        answer: "4"
+      },
+      {
+        question: "what is the square root of 16",
+        answer: "4"
+      }
+    ]
+  },
+  {
     username: "viewer1",
     password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
     fullName: "Viewer One",
@@ -60,18 +77,40 @@ const movies = [
   {
     title: "The Greatest Mysteries of the Pacific Ocean",
     genre: "educational",
+    videoID: "bxIV_itPWkU",
+    description: "a documentary about the mysteries of the pacific ocean",
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoID: "bxIV_itPWkU"
+    likedBy: [],
+    dislikedBy: [],
+    comments: [
+      {
+        username: "manager1",
+        comment: "this is a comment from manager1"
+      }
+    ]
   },
   {
     title: "a plant documentary",
     genre: "educational",
+    videoID: "LWzUt5uoDV0",
+    description: "a documentary about plants",
     views: 0,
     likes: 0,
     dislikes: 0,
-    videoID: "LWzUt5uoDV0"
+    likedBy: [],
+    dislikedBy: [],
+    comments: [
+      {
+        username: "manager1",
+        comment: "this is a comment from manager1"
+      },
+      {
+        username: "manager1",
+        comment: "this is another comment from manager1"
+      }
+    ]
   }
 ];
 
