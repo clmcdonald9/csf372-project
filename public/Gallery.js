@@ -62,12 +62,17 @@ async function fetchMovies() {
 
 async function displayMovies() {
     const movies = await fetchMovies();
+
+
     let gallery_item;
     let movie_link;
 
     GALLERY_GRID.innerHTML = '';
 
-    for (const movie of movies) {
+    for (const movie of movies) {    
+        const likes = movie.likes
+        const dislikes = movie.dislikes
+
         gallery_item = document.createElement('div');
         gallery_item.classList.add('gallery_item');
 
@@ -79,13 +84,32 @@ async function displayMovies() {
         thumbnail.alt = movie.title;
         thumbnail.classList.add('thumbnail');
 
+        const movie_info = document.createElement('div');
+        movie_info.classList.add('movie_details')
+
         const title = document.createElement('p');
         title.textContent = movie.title;
         title.classList.add('movie_title')
 
+        const rating = document.createElement('div');
+        rating.classList.add('rating');
+
+        const likeCount = document.createElement('p');
+        likeCount.innerHTML = ":) &nbsp;&nbsp;" + likes;
+
+        const dislikeCount = document.createElement('p');
+        dislikeCount.innerHTML = ":( &nbsp;&nbsp;" + dislikes;
+
+        rating.appendChild(likeCount);
+        rating.appendChild(dislikeCount);
+
+        movie_info.appendChild(title);
+        movie_info.appendChild(rating);
+
         movie_link.appendChild(thumbnail);
         gallery_item.appendChild(movie_link);
-        gallery_item.appendChild(title);
+        gallery_item.appendChild(movie_info);
+        
         GALLERY_GRID.appendChild(gallery_item);
     }
 }
