@@ -80,7 +80,7 @@ async function displayMovies() {
         movie_link.href = `VideoPlayer.html?videoID=${movie.videoID}`;
 
         const thumbnail = document.createElement('img');
-        thumbnail.src = `https://img.youtube.com/vi/${movie.videoID}/0.jpg`;
+        thumbnail.src = `https://img.youtube.com/vi/${movie.videoID}/mqdefault.jpg`;
         thumbnail.alt = movie.title;
         thumbnail.classList.add('thumbnail');
 
