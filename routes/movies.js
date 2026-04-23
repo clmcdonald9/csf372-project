@@ -21,7 +21,7 @@ router.post('/add-movie', async (req, res) => {
     const { title, genre, videoID, description } = req.body;
 
     if (!title || !genre || !videoID) {
-        return res.status(400).json({ message: 'Title, genre, videoID, and description are required' });
+        return res.status(400).json({ message: 'Title, genre, and videoID are required' });
     }
 
     const newMovie = {
@@ -45,6 +45,31 @@ router.post('/add-movie', async (req, res) => {
         res.status(500).json({ message: 'An error occurred while adding the movie' });
     }
 });
+
+router.put('/update-movie/:movieID', async (req, res) => {
+    const db = getDB();
+    const { title, genre, description } = req.body;
+    const { movieID } = req.params;
+
+    if (!title || !genre) {
+        return res.status(400).json({ message: 'Title, genre, and videoID are required'});
+    }
+
+    const updates = {title, genre, description};
+
+    try {
+        const result = await db.collection('users').updateOne({videoID: movieID}, {$set: updates});
+
+        if (!result.matchedCount) {
+            return res.status(404).json({ message: 'Movie not found'});
+        }
+
+        res.status(200).json({ message: 'movie updated'});
+    } catch (error) {
+        console.error('error updating movie: ', error);
+        res.status(500).json({ message: 'an error occured while updating the movie'});
+    }
+})
 
 router.post('/:movieID/comment', async (req, res) => {
     const db = getDB();

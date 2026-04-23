@@ -23,7 +23,7 @@
 			padding: 40px; 
 			text-align: center; 
 			flex: 1;
-		}        p { font-size: 12pt; text-align: justify; color: blue; max-width: 800px; margin: auto; }
+		}        
         footer { text-align: center; }
         .error { color: red; text-align: center; }
     </style>
@@ -37,7 +37,7 @@
 </header>
 
 <div class="content">
-    <h2>Add Movie</h2>
+    <h2 id="h2_page_heading">Add Movie</h2>
 
     <form id="form_add_movie"> 
         <label>
@@ -54,7 +54,7 @@
 
         <br><br>
 
-        <label>
+        <label id="label_youtube_link">
             Youtube Link:
             <input type="text" id="text_youtube_link" name="textYoutubeLink">
         </label>
@@ -74,7 +74,7 @@
 
     <br><br>
     
-    <button class="add_button"> <a href="Gallery.html">Back to Gallery</a> </button>
+    <button class="add_button"> <a href="Gallery.html" id="a_back">Back</a> </button>
 </div>
 
 <footer> <!-- Ok the one problem that the page has (besides the login needing to function or whatever) is that the footer
