@@ -62,7 +62,7 @@ async function fetchMovies() {
 
 async function displayMovies() {
     const movies = await fetchMovies();
-
+    movies.sort((a, b) => a.title.localeCompare(b.title))
 
     let gallery_item;
     let movie_link;
