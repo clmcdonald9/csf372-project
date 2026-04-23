@@ -2,6 +2,7 @@
 const HEADING_TITLE = document.getElementById('heading_movie_title');
 const VIDEO_PLAYER = document.getElementById('iframe_video_player');
 const MOVIE_DESCRIPTION = document.getElementById('p_movie_description');
+const MOVIE_GENRE = document.getElementById('p_genre')
 
 const BUTTON_LIKE = document.getElementById('button_like');
 const BUTTON_DISLIKE = document.getElementById('button_dislike');
@@ -82,6 +83,7 @@ async function loadMovie() {
 
         // Update the video player with the movie data.
         HEADING_TITLE.textContent = movie.title;
+        MOVIE_GENRE.textContent = movie.genre;
         MOVIE_DESCRIPTION.textContent = movie.description;
 
         VIDEO_PLAYER.src = `https://www.youtube.com/embed/${movie.videoID}?rel=0&modestbranding=1`;
