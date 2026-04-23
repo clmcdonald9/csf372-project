@@ -41,6 +41,11 @@ async function checkUserRole() {
     }
 }
 
+function getMovieIDUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('videoID');
+}
+
 function extractVideoID(url) {
     const regex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     const match = url.match(regex);
@@ -55,13 +60,14 @@ async function submitMovie(movieData) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(movieData)
-        });
+        });        
 
         const data = await response.json();
 
         if (!response.ok) {
             throw new Error(data.message || 'Failed to add movie');
         }
+
 
         alert('Movie added successfully!');
         window.location.href = 'Gallery.html';
@@ -72,7 +78,45 @@ async function submitMovie(movieData) {
     }
 }
 
-checkUserRole();
+async function fetchMovieData(movieID) {
+    try {
+        const response = await fetch(`/movies/${movieID}`);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'failed to get movie')
+        }
+
+        return data.movie;
+
+    } catch (error) {
+        console.error('Error getting movie', error);
+        alert(error.message)
+    }
+}
+
+async function prefillForm(movie) {
+    
+    TITLE_INPUT.value = movie.title;
+    GENRE_INPUT.value = movie.genre;
+    YOUTUBE_LINK_INPUT.value = `https://www.youtube.com/watch?v=${movie.videoID}`;
+    DESCRIPTION_INPUT.value = movie.description;
+}
+
+async function init() {
+    checkUserRole();
+
+    const movieID = getMovieIDUrl();
+
+    if (movieID) {
+        movie = await fetchMovieData(movieID)
+        await prefillForm(movie);
+    }
+
+}
+
+init();
 
 if (FORM) {
     FORM.addEventListener("submit", async (event) => {

@@ -13,6 +13,8 @@ const SPAN_DISLIKE = document.getElementById('span_dislike_count');
 const Manager_controls = document.getElementById('id_manager_controls');
 const COMMENTS = document.getElementById('div_comments');
 const ADD_COMMENT = document.getElementById('div_add_comment');
+const BUTTON_DELETE = document.getElementById('button_delete');
+const BUTTON_EDIT = document.getElementById('button_edit')
 
 // Comment section elements.
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
@@ -42,7 +44,7 @@ async function fetchUserInfo() {
     }
 }
 
-async function checkUserRole() {
+async function checkUserLogin() {
 
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
@@ -253,17 +255,35 @@ async function submitComment() {
     return;
 }
 
+async function deleteConfirmation() {
+    
+
+}
+
+async function editRedirect() {
+    const movieID = getMovieIDUrl();
+    window.location.href = `AddMovie.html?videoID=${movieID}`;
+}
+
 async function init() {
     userInfo = await fetchUserInfo();
-    const isAuthorized = await checkUserRole();
+    const isAuthorized = await checkUserLogin();
     if (isAuthorized) {
         await loadMovie();
     }
+
+    if (userInfo.user.role === 'content editor' || userInfo.user.role === 'admin') {
+        BUTTON_DELETE.style.display = 'block';
+        BUTTON_EDIT.style.display = 'block';
+    }
+    
 }
 
 // Like and dislike buttons.
 BUTTON_LIKE.addEventListener('click', likeMovie);
 BUTTON_DISLIKE.addEventListener('click', dislikeMovie);
+BUTTON_DELETE.addEventListener('click', deleteConfirmation);
+BUTTON_EDIT.addEventListener('click', editRedirect);
 
 // Comment submit button.
 if (BUTTON_SUBMIT_COMMENT) {
