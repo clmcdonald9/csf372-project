@@ -15,6 +15,7 @@ const COMMENTS = document.getElementById('div_comments');
 const ADD_COMMENT = document.getElementById('div_add_comment');
 const BUTTON_DELETE = document.getElementById('button_delete');
 const BUTTON_EDIT = document.getElementById('button_edit')
+const CONFIRM_DELETE = document.getElementById('button_confirm_delete')
 
 // Comment section elements.
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
@@ -44,7 +45,7 @@ async function fetchUserInfo() {
     }
 }
 
-async function checkUserLogin() {
+async function checkUserLogin(userInfo) {
 
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
@@ -255,8 +256,23 @@ async function submitComment() {
     return;
 }
 
-async function deleteConfirmation() {
-    
+async function deleteMovie() {
+    const movieID = getMovieIDUrl()
+
+    try {
+        response = await fetch(`/movies/delete/${movieID}`,{
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error("error deleting movie");
+        }
+
+        alert('Movie successfully deleted');
+        window.location.href = 'Gallery.html';
+    } catch (error) {
+        console.error(error);
+    }
 
 }
 
@@ -267,22 +283,21 @@ async function editRedirect() {
 
 async function init() {
     userInfo = await fetchUserInfo();
-    const isAuthorized = await checkUserLogin();
+    const isAuthorized = await checkUserLogin(userInfo);
     if (isAuthorized) {
         await loadMovie();
     }
 
     if (userInfo.user.role === 'content editor' || userInfo.user.role === 'admin') {
-        BUTTON_DELETE.style.display = 'block';
-        BUTTON_EDIT.style.display = 'block';
+        BUTTON_DELETE.style.display = '';
+        BUTTON_EDIT.style.display = '';
     }
-    
 }
 
 // Like and dislike buttons.
 BUTTON_LIKE.addEventListener('click', likeMovie);
 BUTTON_DISLIKE.addEventListener('click', dislikeMovie);
-BUTTON_DELETE.addEventListener('click', deleteConfirmation);
+CONFIRM_DELETE.addEventListener('click', deleteMovie);
 BUTTON_EDIT.addEventListener('click', editRedirect);
 
 // Comment submit button.

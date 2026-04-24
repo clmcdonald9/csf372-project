@@ -3,10 +3,6 @@ const { sha256} = require('js-sha256');
 const { getDB } = require ('../db');
 const router = express.Router();
 
-
-
-console.log("auth router loaded")
-
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const db = getDB();
@@ -18,8 +14,6 @@ router.post('/login', async (req, res) => {
             username: username, 
             password: hashedPassword 
         });
-
-        console.log("Login attempt:", { username, password });
 
         if (!user) {
             return res.status(401).json({ 

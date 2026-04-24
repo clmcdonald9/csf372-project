@@ -94,7 +94,6 @@
         <img src="logo.png" title="UAF logo" />
         <span style="font-size: 28px; font-weight: bold;">UAF Films</span>
         <nav style="float: right;">
-            <a href="Home.html">Home</a>
             <a href="Login.html">Login</a>
             <a href="Gallery.html">Gallery</a>
         </nav>
@@ -112,8 +111,13 @@
         <div class="controls">
             <button id="button_like">Like (<span id="span_like_count">0</span>)</button>
             <button id="button_dislike">Dislike (<span id="span_dislike_count">0</span>)</button>
-            <button id="button_edit" style="display: none">Edit</button>
-            <button id="button_delete" style="display: none;">Delete</button>
+            <button id="button_edit">Edit</button>
+            <button id="button_delete" popovertarget="div_confirm_delete">Delete</button>
+
+            <div id="div_confirm_delete" popover>
+                <p> are you sure you want to delete?</p>
+                <button id="button_confirm_delete">delete movie</button>
+            </div>
         </div>
 
         <div class="movie-information">

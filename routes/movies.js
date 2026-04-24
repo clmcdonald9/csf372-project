@@ -58,7 +58,7 @@ router.put('/update-movie/:movieID', async (req, res) => {
     const updates = {title, genre, description};
 
     try {
-        const result = await db.collection('users').updateOne({videoID: movieID}, {$set: updates});
+        const result = await db.collection('movies').updateOne({videoID: movieID}, {$set: updates});
 
         if (!result.matchedCount) {
             return res.status(404).json({ message: 'Movie not found'});
@@ -68,6 +68,24 @@ router.put('/update-movie/:movieID', async (req, res) => {
     } catch (error) {
         console.error('error updating movie: ', error);
         res.status(500).json({ message: 'an error occured while updating the movie'});
+    }
+})
+
+router.delete('/delete/:movieID', async (req, res) => {
+    const db = getDB()
+    const { movieID } = req.params;
+
+    try {
+        const result = await db.collection('movies').deleteOne({videoID: movieID});
+
+        if (!result.deletedCount) {
+            return res.status(404).json({message: "movie not found"});
+        }
+        
+        res.status(200).json({message: "Movie Deleted"});
+    } catch (error) {
+        console.error('Error deleting movie: ', error);
+        res.status(500).json({message: "An error occured while deleting the movie"})
     }
 })
 
