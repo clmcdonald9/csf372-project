@@ -54,6 +54,21 @@ async function checkUserLogin(userInfo) {
     return true;
 }
 
+async function logout() {
+    await fetch('/auth/logout', { method: 'POST' });
+    window.location.href = 'Login.html';
+}
+document.getElementById('logout_link').addEventListener('click', logout);
+
+window.addEventListener('pageshow', async (event) => {
+    if (event.persisted) {
+        const userInfo = await fetchUserInfo();
+        if (!userInfo || !userInfo.loggedIn) {
+            window.location.href = 'Login.html';
+        }
+    }
+});
+
 // Function to get the movie ID from the URL parameters.
 function getMovieIDUrl() {
     const urlParams = new URLSearchParams(window.location.search);

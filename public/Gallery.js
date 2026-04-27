@@ -42,6 +42,21 @@ async function checkUserRole() {
     }
 }
 
+async function logout() {
+    await fetch('/auth/logout', { method: 'POST' });
+    window.location.href = 'Login.html';
+}
+document.getElementById('logout_link').addEventListener('click', logout);
+
+window.addEventListener('pageshow', async (event) => {
+    if (event.persisted) {
+        const userInfo = await fetchUserInfo();
+        if (!userInfo || !userInfo.loggedIn) {
+            window.location.href = 'Login.html';
+        }
+    }
+});
+
 
 async function fetchMovies() {
     try {

@@ -56,6 +56,15 @@ router.post('/user', (req, res) => {
     }
 });
 
+router.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Logout failed' });
+        }
+        res.json({ success: true });
+    });
+});
+
 router.post('/security-questions', async (req, res) => {
     console.log("Received request for security questions")
     const { username } = req.body;
