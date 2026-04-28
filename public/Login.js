@@ -46,7 +46,7 @@ function handleLogin() {
                 window.location.href = 'Gallery.html';
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
             alert(error.message);
         }
     

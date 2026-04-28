@@ -26,8 +26,6 @@ async function fetchUserInfo() {
 async function checkUserRole() {
     const userInfo = await fetchUserInfo();
 
-    console.log("User info:", userInfo);
-
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
         return;
@@ -35,8 +33,6 @@ async function checkUserRole() {
 
     if (userInfo && (userInfo.user.role === 'admin' || userInfo.user.role === 'content editor')) {
         ADD_BUTTON.style.display = 'block';
-        console.log(JSON.stringify(userInfo.user.role));
-        console.log("role matched", userInfo.user.role);
     } else {
         ADD_BUTTON.style.display = 'none';
     }

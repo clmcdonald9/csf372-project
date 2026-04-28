@@ -104,13 +104,10 @@ function handleNewPasswordSubmission() {
 
             if (data.success) {
                 alert(data.message);
-                // Optionally, redirect the user to the login page after successful password reset
                 window.location.href = 'Login.html';
-            } else {
-                alert(data.message);
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
             alert(error);
         }
     });

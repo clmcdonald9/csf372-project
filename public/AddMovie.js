@@ -32,8 +32,6 @@ async function fetchUserInfo() {
 async function checkUserRole() {
     const userInfo = await fetchUserInfo();
 
-    console.log("User info:", userInfo);
-
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
         return;
@@ -183,7 +181,7 @@ async function init() {
         YOUTUBE_LINK_INPUT.style.display = 'none'
         BACK_BUTTON.href = `VideoPlayer.html?videoID=${movieID}`
 
-        movie = await fetchMovieData(movieID)
+        const movie = await fetchMovieData(movieID)
         await prefillForm(movie);
 
     }

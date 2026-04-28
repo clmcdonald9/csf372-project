@@ -21,8 +21,6 @@ const CONFIRM_DELETE = document.getElementById('button_confirm_delete')
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
 const BUTTON_SUBMIT_COMMENT = document.getElementById('button_submit_comment');
 
-let USER_INFO = null;
-
 async function fetchUserInfo() {
     try {
         const response = await fetch('/auth/user', {
@@ -88,7 +86,7 @@ async function loadMovie() {
         const response = await fetch(`/movies/${movieID}`);
 
         if (!response.ok) {
-            throw new Error(data.error || 'Failed to load movie.');
+            throw new Error(response.json.error || 'Failed to load movie.');
         }
         
         const data = await response.json();
@@ -245,7 +243,7 @@ async function submitComment() {
 
     try {
         
-        const response = await fetch(`movies/${movieID}/comment`, {
+        const response = await fetch(`/movies/${movieID}/comment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -275,7 +273,7 @@ async function deleteMovie() {
     const movieID = getMovieIDUrl()
 
     try {
-        response = await fetch(`/movies/delete/${movieID}`,{
+        const response = await fetch(`/movies/delete/${movieID}`,{
             method: 'DELETE'
         });
 
@@ -297,7 +295,8 @@ async function editRedirect() {
 }
 
 async function init() {
-    userInfo = await fetchUserInfo();
+    const userInfo = await fetchUserInfo();
+
     const isAuthorized = await checkUserLogin(userInfo);
     if (isAuthorized) {
         await loadMovie();
