@@ -21,7 +21,7 @@ const CONFIRM_DELETE = document.getElementById('button_confirm_delete')
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
 const BUTTON_SUBMIT_COMMENT = document.getElementById('button_submit_comment');
 
-let userInfo;
+let userInfo = null;
 
 async function fetchUserInfo() {
     try {
@@ -297,6 +297,7 @@ async function editRedirect() {
 }
 
 async function init() {
+    userInfo = await fetchUserInfo();
     const isAuthorized = await checkUserLogin();
     if (isAuthorized) {
         await loadMovie();
