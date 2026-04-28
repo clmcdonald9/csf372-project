@@ -9,11 +9,11 @@ const SECURITY_ANSWER_2 = document.getElementById('text_answer_2');
 const NEW_PASSWORD_FIELD = document.getElementById('password_new_password');
 
 const REQUIRED_FIELDS = [
-    ACCOUNT_SETUP_FORM && 
-    SECURITY_QUESTION_1 && 
-    SECURITY_QUESTION_2 && 
-    SECURITY_ANSWER_1 && 
-    SECURITY_ANSWER_2 && 
+    ACCOUNT_SETUP_FORM , 
+    SECURITY_QUESTION_1 , 
+    SECURITY_QUESTION_2 ,
+    SECURITY_ANSWER_1 , 
+    SECURITY_ANSWER_2 , 
     NEW_PASSWORD_FIELD
 ];
 
@@ -44,8 +44,6 @@ async function fetchUserInfo() {
 async function checkUserRole() {
     const userInfo = await fetchUserInfo();
 
-    console.log("User info:", userInfo);
-
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
         return;
@@ -55,7 +53,7 @@ async function checkUserRole() {
 
 async function updateAccountData(username) {
     try {
-        const response = await fetch('auth/update-user-account', {
+        const response = await fetch('/auth/update-user-account', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -71,7 +69,7 @@ async function updateAccountData(username) {
         });
 
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to update user account');
+            throw new Error(response.json.message || 'Failed to update user account');
         }
 
     } catch (error) {
@@ -89,12 +87,11 @@ async function getUsername() {
             }
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to retrieve user information');
+            throw new Error(response.json.message || 'Failed to retrieve user information');
         }
 
+        const data = await response.json();
         return data.user.username;
 
     } catch (error) {
@@ -109,8 +106,12 @@ function newAccountSetup() {
         event.preventDefault();
 
         try {
+            const INPUT_FIELDS = [SECURITY_QUESTION_1, SECURITY_QUESTION_2, SECURITY_ANSWER_1, SECURITY_ANSWER_2, NEW_PASSWORD_FIELD];
+            if (!INPUT_FIELDS.every(field => field.value.trim())) {
+                throw new Error('All fields are required');
+            }
+
             if (!PASSWORD_REGEX.test(NEW_PASSWORD_FIELD.value)) {
-                alert('Password does not meet the required criteria');
                 throw new Error('Password does not meet the required criteria');
             }
 

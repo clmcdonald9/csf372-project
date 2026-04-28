@@ -13,12 +13,13 @@ const SPAN_DISLIKE = document.getElementById('span_dislike_count');
 const Manager_controls = document.getElementById('id_manager_controls');
 const COMMENTS = document.getElementById('div_comments');
 const ADD_COMMENT = document.getElementById('div_add_comment');
+const BUTTON_DELETE = document.getElementById('button_delete');
+const BUTTON_EDIT = document.getElementById('button_edit')
+const CONFIRM_DELETE = document.getElementById('button_confirm_delete')
 
 // Comment section elements.
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
 const BUTTON_SUBMIT_COMMENT = document.getElementById('button_submit_comment');
-
-let USER_INFO = null;
 
 async function fetchUserInfo() {
     try {
@@ -42,7 +43,7 @@ async function fetchUserInfo() {
     }
 }
 
-async function checkUserRole() {
+async function checkUserLogin(userInfo) {
 
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
@@ -50,6 +51,21 @@ async function checkUserRole() {
     }
     return true;
 }
+
+async function logout() {
+    await fetch('/auth/logout', { method: 'POST' });
+    window.location.href = 'Login.html';
+}
+document.getElementById('logout_link').addEventListener('click', logout);
+
+window.addEventListener('pageshow', async (event) => {
+    if (event.persisted) {
+        const userInfo = await fetchUserInfo();
+        if (!userInfo || !userInfo.loggedIn) {
+            window.location.href = 'Login.html';
+        }
+    }
+});
 
 // Function to get the movie ID from the URL parameters.
 function getMovieIDUrl() {
@@ -70,7 +86,7 @@ async function loadMovie() {
         const response = await fetch(`/movies/${movieID}`);
 
         if (!response.ok) {
-            throw new Error(data.error || 'Failed to load movie.');
+            throw new Error(response.json.error || 'Failed to load movie.');
         }
         
         const data = await response.json();
@@ -227,7 +243,7 @@ async function submitComment() {
 
     try {
         
-        const response = await fetch(`movies/${movieID}/comment`, {
+        const response = await fetch(`/movies/${movieID}/comment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -253,17 +269,50 @@ async function submitComment() {
     return;
 }
 
+async function deleteMovie() {
+    const movieID = getMovieIDUrl()
+
+    try {
+        const response = await fetch(`/movies/delete/${movieID}`,{
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error("error deleting movie");
+        }
+
+        alert('Movie successfully deleted');
+        window.location.href = 'Gallery.html';
+    } catch (error) {
+        console.error(error);
+    }
+
+}
+
+async function editRedirect() {
+    const movieID = getMovieIDUrl();
+    window.location.href = `AddMovie.html?videoID=${movieID}`;
+}
+
 async function init() {
-    userInfo = await fetchUserInfo();
-    const isAuthorized = await checkUserRole();
+    const userInfo = await fetchUserInfo();
+
+    const isAuthorized = await checkUserLogin(userInfo);
     if (isAuthorized) {
         await loadMovie();
+    }
+
+    if (userInfo.user.role === 'content editor' || userInfo.user.role === 'admin') {
+        BUTTON_DELETE.style.display = '';
+        BUTTON_EDIT.style.display = '';
     }
 }
 
 // Like and dislike buttons.
 BUTTON_LIKE.addEventListener('click', likeMovie);
 BUTTON_DISLIKE.addEventListener('click', dislikeMovie);
+CONFIRM_DELETE.addEventListener('click', deleteMovie);
+BUTTON_EDIT.addEventListener('click', editRedirect);
 
 // Comment submit button.
 if (BUTTON_SUBMIT_COMMENT) {

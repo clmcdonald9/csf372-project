@@ -1,23 +1,15 @@
 const mongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localHost:27017"
+const url = "mongodb://localhost:27017"
 const DBName = "SCProject"
 
 const users = [
   {
     username: "admin1",
-    password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', // "Password123!"
+    password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', // "password123"
     fullName: "Admin User",
     role: "admin",
     firstLogin: true,
     recoveryQuestions: [
-      {
-        question: "what is 2 + 2?",
-        answer: "4"
-      },
-      {
-        question: "what is the square root of 16",
-        answer: "4"
-      }
     ]
   },
   {
@@ -27,14 +19,6 @@ const users = [
     role: "content editor",
     firstLogin: true,
     recoveryQuestions: [
-      {
-        question: "what is 2 + 2?",
-        answer: "4"
-      },
-      {
-        question: "what is the square root of 16",
-        answer: "4"
-      }
     ] 
   },
   {
@@ -44,14 +28,6 @@ const users = [
     role: "marketing manager",
     firstLogin: true,
     recoveryQuestions: [
-      {
-        question: "what is 2 + 2?",
-        answer: "4"
-      },
-      {
-        question: "what is the square root of 16",
-        answer: "4"
-      }
     ]
   },
   {
@@ -61,14 +37,6 @@ const users = [
     role: "viewer",
     firstLogin: true,
     recoveryQuestions: [
-      {
-        question: "what is 2 + 2?",
-        answer: "4"
-      },
-      {
-        question: "what is the square root of 16",
-        answer: "4"
-      }
     ]
   }
 ];

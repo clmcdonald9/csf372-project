@@ -39,13 +39,14 @@ function handleLogin() {
             if (!data.success) {
                 throw new Error(data.message || 'Login failed');
             }
+
             if (data.user.firstLogin) {
                 window.location.href = 'NewUser.html';
             } else {
-                window.location.href = 'Home.html';
+                window.location.href = 'Gallery.html';
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
             alert(error.message);
         }
     
