@@ -69,7 +69,7 @@ async function updateAccountData(username) {
         });
 
         if (!response.ok) {
-            throw new Error(response.json.message || 'Failed to update user account');
+            throw new Error(await response.json().message || 'Failed to update user account');
         }
 
     } catch (error) {
@@ -88,7 +88,7 @@ async function getUsername() {
         });
 
         if (!response.ok) {
-            throw new Error(response.json.message || 'Failed to retrieve user information');
+            throw new Error(await response.json().message || 'Failed to retrieve user information');
         }
 
         const data = await response.json();

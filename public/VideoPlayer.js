@@ -21,6 +21,8 @@ const CONFIRM_DELETE = document.getElementById('button_confirm_delete')
 const TEXT_NEW_COMMENT = document.getElementById('text_new_comment');
 const BUTTON_SUBMIT_COMMENT = document.getElementById('button_submit_comment');
 
+let userInfo;
+
 async function fetchUserInfo() {
     try {
         const response = await fetch('/auth/user', {
@@ -34,7 +36,7 @@ async function fetchUserInfo() {
             throw new Error('Failed to fetch user info');
         }
         
-        const userInfo = await response.json();
+        userInfo = await response.json();
         return userInfo;
 
     } catch (error) {
@@ -43,7 +45,7 @@ async function fetchUserInfo() {
     }
 }
 
-async function checkUserLogin(userInfo) {
+async function checkUserLogin() {
 
     if (!userInfo || !userInfo.loggedIn) {
         window.location.href = 'Login.html';
@@ -86,7 +88,7 @@ async function loadMovie() {
         const response = await fetch(`/movies/${movieID}`);
 
         if (!response.ok) {
-            throw new Error(response.json.error || 'Failed to load movie.');
+            throw new Error(await response.json().error || 'Failed to load movie.');
         }
         
         const data = await response.json();
@@ -295,9 +297,7 @@ async function editRedirect() {
 }
 
 async function init() {
-    const userInfo = await fetchUserInfo();
-
-    const isAuthorized = await checkUserLogin(userInfo);
+    const isAuthorized = await checkUserLogin();
     if (isAuthorized) {
         await loadMovie();
     }

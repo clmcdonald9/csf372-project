@@ -8,7 +8,7 @@ const users = [
     password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', // "password123"
     fullName: "Admin User",
     role: "admin",
-    firstLogin: true,
+    firstLogin: false,
     recoveryQuestions: [
     ]
   },
@@ -17,7 +17,7 @@ const users = [
     password: "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
     fullName: "Editor One",
     role: "content editor",
-    firstLogin: true,
+    firstLogin: false,
     recoveryQuestions: [
     ] 
   },
@@ -26,7 +26,7 @@ const users = [
     password: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
     fullName: "Manager One",
     role: "marketing manager",
-    firstLogin: true,
+    firstLogin: false,
     recoveryQuestions: [
     ]
   },
